@@ -12,7 +12,7 @@ const users = new Schema({
   firstName: String,
   lastName: String,
   middleName: String,
-  schoolName: String,
+  schoolName: String
   isVerified: Boolean,
   userType: {
     type: String,
