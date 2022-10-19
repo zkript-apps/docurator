@@ -9,6 +9,9 @@ const users = new Schema({
     required: true,
     unique: true,
   },
+  firstName: String,
+  lastName: String,
+  middleName: String,
   isVerified: Boolean,
   userType: {
     type: String,
