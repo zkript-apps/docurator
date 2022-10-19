@@ -7,9 +7,11 @@ const subjectRecords = new Schema({
     ref: 'Students',
     required: true,
   },
-  schoolStudentId: {
+  lrn: {
     type: String,
-    required: true,
+    unique: true,
+    minlength: 12,
+    maxlength: 12,
   },
   subjectName: {
     type: String,
@@ -22,6 +24,11 @@ const subjectRecords = new Schema({
   fourthGrading: Number,
   finalGrade: Number,
   remarks: String,
+  academicYear: {
+    from: String,
+    to: String,
+    required: true,
+  },
   gradeLevel: {
     type: String,
     enum: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],

@@ -6,8 +6,15 @@ const attendances = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Students',
   },
-  schoolStudentId: {
+  lrn: {
     type: String,
+    unique: true,
+    minlength: 12,
+    maxlength: 12,
+  },
+  academicYear: {
+    from: String,
+    to: String,
     required: true,
   },
   gradeLevel: {

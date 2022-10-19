@@ -7,10 +7,11 @@ const form137 = new Schema({
     ref: 'Students',
     unique: true,
   },
-  schoolStudentId: {
+  lrn: {
     type: String,
-    required: true,
     unique: true,
+    minlength: 12,
+    maxlength: 12,
   },
   createdAt: {
     type: Date,
