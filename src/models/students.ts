@@ -2,6 +2,11 @@ import mongoose from 'mongoose'
 const { Schema } = mongoose
 
 const students = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Users',
+    unique: true,
+  },
   lrn: {
     type: String,
     unique: true,
