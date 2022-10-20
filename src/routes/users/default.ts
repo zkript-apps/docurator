@@ -36,7 +36,7 @@ const addUser = async (req, res) => {
       password: encryptPassword,
       firstName,
       lastName,
-      userType: 'User',
+      userType: 'Student',
     })
 
     try {
