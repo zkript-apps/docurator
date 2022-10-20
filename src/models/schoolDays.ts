@@ -7,6 +7,12 @@ const attendances = new Schema({
     ref: 'Students',
     unique: true,
   },
+  lrn: {
+    type: String,
+    unique: true,
+    minlength: 12,
+    maxlength: 12,
+  },
   attendanceId: {
     type: Schema.Types.ObjectId,
     ref: 'Attendances',
