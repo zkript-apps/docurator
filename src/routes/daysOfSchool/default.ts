@@ -21,7 +21,7 @@ const getAllDaysOfSchool = async (req, res) => {
   }
 }
 
-const addSchoolDays = async (req, res) => {
+const addDaysOfSchool = async (req, res) => {
   const {
     studentId,
     lrn,
@@ -41,7 +41,7 @@ const addSchoolDays = async (req, res) => {
   } = req.body
 
   if (studentId && attendanceId) {
-    const newSchoolDays = new DaysOfSchool({
+    const newDaysOfSchool = new DaysOfSchool({
       studentId,
       lrn,
       attendanceId,
@@ -60,13 +60,13 @@ const addSchoolDays = async (req, res) => {
     })
 
     try {
-      const getExistingSchoolDays = await DaysOfSchool.find({
+      const getExistingDaysOfSchool = await DaysOfSchool.find({
         attendanceId,
         deletedAt: { $exists: false },
       })
-      if (getExistingSchoolDays.length === 0) {
-        const createSchoolDays = await newSchoolDays.save()
-        res.json(createSchoolDays)
+      if (getExistingDaysOfSchool.length === 0) {
+        const createDaysOfSchool = await newDaysOfSchool.save()
+        res.json(createDaysOfSchool)
       } else {
         res.status(400).json(RECORD_EXISTS)
       }
@@ -138,7 +138,7 @@ const deleteDaysOfSchool = async (req, res) => {
 
 module.exports = {
   getAllDaysOfSchool,
-  addSchoolDays,
+  addDaysOfSchool,
   updateDaysOfSchool,
   deleteDaysOfSchool,
 }
