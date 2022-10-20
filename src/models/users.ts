@@ -15,7 +15,7 @@ const users = new Schema({
   isVerified: Boolean,
   userType: {
     type: String,
-    enum: ['Admin', 'Staff'],
+    enum: ['Admin', 'Student'],
   },
   lastLoggedIn: Date,
   lastLoggedOut: Date,
