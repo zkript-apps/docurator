@@ -2,6 +2,11 @@ import mongoose from 'mongoose'
 const { Schema } = mongoose
 
 const attendances = new Schema({
+  studentId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Students',
+    unique: true,
+  },
   attendanceId: {
     type: Schema.Types.ObjectId,
     ref: 'Attendances',

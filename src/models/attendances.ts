@@ -5,6 +5,7 @@ const attendances = new Schema({
   studentId: {
     type: Schema.Types.ObjectId,
     ref: 'Students',
+    unique: true,
   },
   lrn: {
     type: String,
