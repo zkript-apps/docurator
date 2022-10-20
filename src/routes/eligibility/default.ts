@@ -22,20 +22,21 @@ const getAllEligibility = async (req, res) => {
 }
 
 const addEligibility = async (req, res) => {
-  const { studentId, schoolStudentId, isEligibleForNextLevel, gradeLevel } =
+  const { studentId, lrn, isEligibleForNextLevel, gradeLevel, academicYear } =
     req.body
 
-  if (schoolStudentId && isEligibleForNextLevel && gradeLevel) {
+  if (lrn && isEligibleForNextLevel != null && gradeLevel && academicYear) {
     const newEligibility = new Eligibility({
       studentId,
-      schoolStudentId,
+      lrn,
       isEligibleForNextLevel,
       gradeLevel,
+      academicYear,
     })
 
     try {
       const getEligibility = await Eligibility.find({
-        $or: [{ isEligibleForNextLevel }, { gradeLevel }],
+        $and: [{ isEligibleForNextLevel }, { gradeLevel }],
         deletedAt: { $exists: false },
       })
       if (getEligibility.length === 0) {

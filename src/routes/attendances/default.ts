@@ -25,26 +25,19 @@ const getAllAttendances = async (req, res) => {
 }
 
 const addAttendance = async (req, res) => {
-  const {
-    studentId,
-    schoolStudentId,
-    gradeLevel,
-    daysOfSchool = {},
-    daysPresent = {},
-  } = req.body
+  const { studentId, lrn, academicYear, gradeLevel } = req.body
 
-  if (schoolStudentId && gradeLevel) {
+  if (lrn && gradeLevel) {
     const newAttendance = new Attendances({
       studentId,
-      schoolStudentId,
+      lrn,
+      academicYear,
       gradeLevel,
-      daysOfSchool,
-      daysPresent,
     })
 
     try {
       const getExistingAttendances = await Attendances.find({
-        $and: [{ schoolStudentId }, { gradeLevel }],
+        $and: [{ lrn }, { gradeLevel }],
         deletedAt: { $exists: false },
       })
       if (getExistingAttendances.length === 0) {

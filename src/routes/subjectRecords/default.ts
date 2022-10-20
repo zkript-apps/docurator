@@ -36,6 +36,7 @@ const addSubjectRecords = async (req, res) => {
     finalGrade,
     remarks,
     gradeLevel,
+    academicYear,
   } = req.body
 
   if (studentId && subjectName && gradeLevel) {
@@ -50,6 +51,7 @@ const addSubjectRecords = async (req, res) => {
       finalGrade,
       remarks,
       gradeLevel,
+      academicYear,
     })
 
     try {

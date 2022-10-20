@@ -25,9 +25,14 @@ const subjectRecords = new Schema({
   finalGrade: Number,
   remarks: String,
   academicYear: {
-    from: String,
-    to: String,
-    required: true,
+    from: {
+      type: String,
+      required: true,
+    },
+    to: {
+      type: String,
+      required: true,
+    },
   },
   gradeLevel: {
     type: String,

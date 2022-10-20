@@ -22,17 +22,17 @@ const getAllForm137 = async (req, res) => {
 }
 
 const addForm137 = async (req, res) => {
-  const { studentId, schoolStudentId } = req.body
+  const { studentId, lrn } = req.body
 
-  if (schoolStudentId) {
+  if (lrn) {
     const newStudent = new Form137({
       studentId,
-      schoolStudentId,
+      lrn,
     })
 
     try {
       const getExistingForm137 = await Form137.find({
-        $or: [{ studentId }, { schoolStudentId }],
+        $or: [{ studentId }, { lrn }],
         deletedAt: { $exists: false },
       })
       if (getExistingForm137.length === 0) {
