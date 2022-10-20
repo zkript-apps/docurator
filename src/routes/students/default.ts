@@ -22,11 +22,10 @@ const getAllStudents = async (req, res) => {
 
 const addStudent = async (req, res) => {
   const {
+    userId,
     lrn,
     statusOfApplicant,
-    lastName,
-    firstName,
-    middleName,
+    schoolName,
     dateOfBirth,
     gender,
     civilStatus,
@@ -45,13 +44,12 @@ const addStudent = async (req, res) => {
     province,
   } = req.body
 
-  if (statusOfApplicant && lastName && firstName && phoneNumber) {
+  if (lrn && statusOfApplicant && schoolName && phoneNumber) {
     const newStudent = new Students({
+      userId,
       lrn,
       statusOfApplicant,
-      lastName,
-      firstName,
-      middleName,
+      schoolName,
       dateOfBirth,
       gender,
       civilStatus,

@@ -12,6 +12,7 @@ const students = new Schema({
     unique: true,
     minlength: 12,
     maxlength: 12,
+    required: true,
   },
   statusOfApplicant: {
     type: String,
