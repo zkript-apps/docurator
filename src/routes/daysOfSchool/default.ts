@@ -1,4 +1,4 @@
-import SchoolDays from '../../models/schoolDays'
+import DaysOfSchool from '../../models/daysOfSchool'
 import {
   UNKNOWN_ERROR_OCCURRED,
   RECORD_EXISTS,
@@ -7,13 +7,13 @@ import {
 } from '../../utils/constants'
 import isEmpty from 'lodash/isEmpty'
 
-const getAllSchoolDays = async (req, res) => {
+const getAllDaysOfSchool = async (req, res) => {
   try {
-    const schoolDaysCounts = await SchoolDays.find().countDocuments()
-    const getAllSchoolDays = await SchoolDays.find().sort({ createdAt: -1 })
+    const daysOfSchoolCounts = await DaysOfSchool.find().countDocuments()
+    const getAllDaysOfSchool = await DaysOfSchool.find().sort({ createdAt: -1 })
     res.json({
-      items: getAllSchoolDays,
-      count: schoolDaysCounts,
+      items: getAllDaysOfSchool,
+      count: daysOfSchoolCounts,
     })
   } catch (err: any) {
     const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
@@ -26,26 +26,42 @@ const addSchoolDays = async (req, res) => {
     studentId,
     lrn,
     attendanceId,
-    academicYear,
-    gradeLevel,
-    daysOfSchool,
-    daysPresent,
+    june,
+    july,
+    august,
+    september,
+    october,
+    november,
+    december,
+    january,
+    february,
+    march,
+    april,
+    may,
   } = req.body
 
-  if (studentId && attendanceId && gradeLevel) {
-    const newSchoolDays = new SchoolDays({
+  if (studentId && attendanceId) {
+    const newSchoolDays = new DaysOfSchool({
       studentId,
       lrn,
       attendanceId,
-      academicYear,
-      gradeLevel,
-      daysOfSchool,
-      daysPresent,
+      june,
+      july,
+      august,
+      september,
+      october,
+      november,
+      december,
+      january,
+      february,
+      march,
+      april,
+      may,
     })
 
     try {
-      const getExistingSchoolDays = await SchoolDays.find({
-        $and: [{ studentId }, { attendanceId }, { gradeLevel }],
+      const getExistingSchoolDays = await DaysOfSchool.find({
+        attendanceId,
         deletedAt: { $exists: false },
       })
       if (getExistingSchoolDays.length === 0) {
@@ -63,16 +79,16 @@ const addSchoolDays = async (req, res) => {
   }
 }
 
-const updateSchoolDays = async (req, res) => {
-  const getSchoolDays = await SchoolDays.find({
+const updateDaysOfSchool = async (req, res) => {
+  const getDaysOfSchool = await DaysOfSchool.find({
     _id: req.params.id,
     deletedAt: { $exists: true },
   })
   const condition = req.body
-  if (getSchoolDays.length === 0) {
+  if (getDaysOfSchool.length === 0) {
     if (!isEmpty(condition)) {
       try {
-        const updateSchoolDays = await SchoolDays.findByIdAndUpdate(
+        const updateDaysOfSchool = await DaysOfSchool.findByIdAndUpdate(
           req.params.id,
           {
             $set: req.body,
@@ -80,7 +96,7 @@ const updateSchoolDays = async (req, res) => {
           },
           { new: true }
         )
-        res.json(updateSchoolDays)
+        res.json(updateDaysOfSchool)
       } catch (err: any) {
         const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
         res.status(500).json(message)
@@ -93,16 +109,16 @@ const updateSchoolDays = async (req, res) => {
   }
 }
 
-const deleteSchoolDays = async (req, res) => {
+const deleteDaysOfSchool = async (req, res) => {
   try {
-    const getSchoolDays = await SchoolDays.find({
+    const getDaysOfSchool = await DaysOfSchool.find({
       _id: req.params.id,
       deletedAt: {
         $exists: false,
       },
     })
-    if (getSchoolDays.length > 0) {
-      const deleteSchoolDays = await SchoolDays.findByIdAndUpdate(
+    if (getDaysOfSchool.length > 0) {
+      const deleteDaysOfSchool = await DaysOfSchool.findByIdAndUpdate(
         req.params.id,
         {
           $set: {
@@ -110,7 +126,7 @@ const deleteSchoolDays = async (req, res) => {
           },
         }
       )
-      res.json(deleteSchoolDays)
+      res.json(deleteDaysOfSchool)
     } else {
       throw new Error('Record is already deleted')
     }
@@ -121,8 +137,8 @@ const deleteSchoolDays = async (req, res) => {
 }
 
 module.exports = {
-  getAllSchoolDays,
+  getAllDaysOfSchool,
   addSchoolDays,
-  updateSchoolDays,
-  deleteSchoolDays,
+  updateDaysOfSchool,
+  deleteDaysOfSchool,
 }
