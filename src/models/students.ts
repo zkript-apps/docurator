@@ -2,6 +2,11 @@ import mongoose from 'mongoose'
 const { Schema } = mongoose
 
 const students = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Users',
+    unique: true,
+  },
   lrn: {
     type: String,
     unique: true,
@@ -13,15 +18,7 @@ const students = new Schema({
     enum: ['Freshmen', 'Transferee', 'Returnee', 'Shifter', 'Continuer'],
     required: true,
   },
-  lastName: {
-    type: String,
-    required: true,
-  },
-  firstName: {
-    type: String,
-    required: true,
-  },
-  middleName: String,
+  schoolName: String,
   dateOfBirth: Date,
   age: Number,
   gender: {
