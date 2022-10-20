@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 const { Schema } = mongoose
 
-const attendances = new Schema({
+const schoolDays = new Schema({
   studentId: {
     type: Schema.Types.ObjectId,
     ref: 'Students',
@@ -64,4 +64,4 @@ const attendances = new Schema({
   deletedAt: Date,
 })
 
-module.exports = mongoose.model('Attendances', attendances)
+module.exports = mongoose.model('SchoolDays', schoolDays)
