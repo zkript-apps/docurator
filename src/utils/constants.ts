@@ -6,3 +6,4 @@ export const EMAIL_PHONENUMBER_ALREADY_USED =
 export const RECORD_DOES_NOT_EXIST = 'Record does not exist'
 export const LRN_EMAIL_EXISTS = 'LRN or Email already exists'
 export const RECORD_EXISTS = 'Record already exists'
+export const RECORD_ALREADY_DELETED = 'Record is alredy deleted'
