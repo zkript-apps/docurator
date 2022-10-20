@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 const { Schema } = mongoose
 
-const eligibility = new Schema({
+const form137 = new Schema({
   studentId: {
     type: Schema.Types.ObjectId,
     ref: 'Students',
@@ -13,17 +13,6 @@ const eligibility = new Schema({
     minlength: 12,
     maxlength: 12,
   },
-  isEligibleForNextLevel: Boolean,
-  academicYear: {
-    from: String,
-    to: String,
-    required: true,
-  },
-  gradeLevel: {
-    type: String,
-    enum: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-    required: true,
-  },
   createdAt: {
     type: Date,
     default: Date.now,
@@ -32,4 +21,4 @@ const eligibility = new Schema({
   deletedAt: Date,
 })
 
-module.exports = mongoose.model('Eligibility', eligibility)
+module.exports = mongoose.model('Form137', form137)
