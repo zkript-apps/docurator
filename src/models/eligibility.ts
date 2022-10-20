@@ -1,11 +1,11 @@
 import mongoose from 'mongoose'
 const { Schema } = mongoose
 
-const subjectRecords = new Schema({
+const eligibility = new Schema({
   studentId: {
     type: Schema.Types.ObjectId,
     ref: 'Students',
-    required: true,
+    unique: true,
   },
   lrn: {
     type: String,
@@ -13,17 +13,7 @@ const subjectRecords = new Schema({
     minlength: 12,
     maxlength: 12,
   },
-  subjectName: {
-    type: String,
-    required: true,
-  },
-  subjectCode: String,
-  firstGrading: Number,
-  secondGrading: Number,
-  thirdGrading: Number,
-  fourthGrading: Number,
-  finalGrade: Number,
-  remarks: String,
+  isEligibleForNextLevel: Boolean,
   academicYear: {
     from: String,
     to: String,
@@ -42,4 +32,4 @@ const subjectRecords = new Schema({
   deletedAt: Date,
 })
 
-module.exports = mongoose.model('SubjectRecords', subjectRecords)
+module.exports = mongoose.model('Eligibility', eligibility)
