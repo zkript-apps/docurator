@@ -6,10 +6,11 @@ const {
   updateForm137,
   deleteForm137,
 } = require('./default')
+import { isUserLoggedIn } from '../../../helper'
 
-router.get('/', getAllForm137)
-router.post('/', addForm137)
-router.patch('/:id', updateForm137)
-router.delete('/:id', deleteForm137)
+router.get('/', isUserLoggedIn, getAllForm137)
+router.post('/', isUserLoggedIn, addForm137)
+router.patch('/:id', isUserLoggedIn, updateForm137)
+router.delete('/:id', isUserLoggedIn, deleteForm137)
 
 module.exports = router
