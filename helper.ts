@@ -1,7 +1,7 @@
-import Users from './models/users'
-import { keys } from './config/keys'
+import Users from './src/models/users'
+import { keys } from './src/config/keys'
 import jwt from 'jsonwebtoken'
-import { UNKNOWN_ERROR_OCCURRED } from './utils/constants'
+import { UNKNOWN_ERROR_OCCURRED } from './src/utils/constants'
 
 const isUserLoggedIn = async (req, res, next) => {
   const bearerHeader = req.headers['authorization']

@@ -25,7 +25,7 @@ const addForm137 = async (req, res) => {
   const { studentId, lrn } = req.body
 
   if (lrn) {
-    const newStudent = new Form137({
+    const newForm137 = new Form137({
       studentId,
       lrn,
     })
@@ -36,7 +36,7 @@ const addForm137 = async (req, res) => {
         deletedAt: { $exists: false },
       })
       if (getExistingForm137.length === 0) {
-        const createStudent = await newStudent.save()
+        const createStudent = await newForm137.save()
         res.json(createStudent)
       } else {
         res.status(400).json(RECORD_EXISTS)
