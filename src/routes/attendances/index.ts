@@ -6,10 +6,11 @@ const {
   updateAttendance,
   deleteAttendance,
 } = require('./default')
+import { isUserLoggedIn } from '../../../helper'
 
-router.get('/', getAllAttendances)
-router.post('/', addAttendance)
-router.patch('/:id', updateAttendance)
-router.delete('/:id', deleteAttendance)
+router.get('/', isUserLoggedIn, getAllAttendances)
+router.post('/', isUserLoggedIn, addAttendance)
+router.patch('/:id', isUserLoggedIn, updateAttendance)
+router.delete('/:id', isUserLoggedIn, deleteAttendance)
 
 module.exports = router
