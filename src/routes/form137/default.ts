@@ -1,4 +1,5 @@
 import Form137 from '../../models/form137'
+import Users from '../../models/users'
 import {
   UNKNOWN_ERROR_OCCURRED,
   RECORD_EXISTS,
@@ -6,8 +7,54 @@ import {
   RECORD_DOES_NOT_EXIST,
 } from '../../utils/constants'
 import isEmpty from 'lodash/isEmpty'
+import jwt from 'jsonwebtoken'
+import { keys } from '../../config/keys'
 
 const getAllForm137 = async (req, res) => {
+  const bearerHeader = req.headers['authorization']
+  if (bearerHeader) {
+    const bearer = bearerHeader.split(' ')
+    const bearerToken = bearer[1]
+    try {
+      const { email, phoneNumber } = jwt.verify(bearerToken, keys.signKey)
+      const user = await Users.findOne({ email, phoneNumber })
+      if (user && user.deletedAt) {
+        throw new Error('We cannot find your account in our system')
+      }
+      if (user && user.blockedAt) {
+        throw new Error(
+          'Your account was banned, all actions and requested data was prohibited'
+        )
+      }
+      res.locals.user = user
+      try {
+        const form137Counts = await Form137.find().countDocuments()
+        const getAllForm137 = await Form137.find({
+          schoolId: { $eq: '635198ccbf1e526eaf697b45' },
+        }).sort({ createdAt: -1 })
+        res.json({
+          items: getAllForm137,
+          count: form137Counts,
+        })
+      } catch (err: any) {
+        const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
+        res.status(500).json(message)
+      }
+    } catch (err: any) {
+      const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
+      if (message === 'jwt malformed') {
+        res.status(401).json('Invalid authentication credentials')
+      } else if (message === 'jwt expired') {
+        res.status(403).json('Authentication is expired, please login again')
+      } else {
+        res.status(403).json(message)
+      }
+    }
+  } else {
+    res.status(401).json(`You are not authorized to perform this action`)
+  }
+
+  /*
   try {
     const form137Counts = await Form137.find().countDocuments()
     const getAllForm137 = await Form137.find().sort({ createdAt: -1 })
@@ -18,7 +65,7 @@ const getAllForm137 = async (req, res) => {
   } catch (err: any) {
     const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
     res.status(500).json(message)
-  }
+  }*/
 }
 
 const addForm137 = async (req, res) => {

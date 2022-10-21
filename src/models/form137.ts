@@ -13,6 +13,19 @@ const form137 = new Schema({
     minlength: 12,
     maxlength: 12,
   },
+  schoolsWithAccess: [
+    {
+      schoolId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Users',
+        unique: true,
+      },
+      accessAdded: {
+        type: Date,
+        default: Date.now,
+      },
+    },
+  ],
   createdAt: {
     type: Date,
     default: Date.now,
