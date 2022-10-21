@@ -28,9 +28,11 @@ const getAllForm137 = async (req, res) => {
       }
       res.locals.user = user
       try {
-        const form137Counts = await Form137.find().countDocuments()
+        const form137Counts = await Form137.find({
+          schoolsWithAccess: user.id,
+        }).countDocuments()
         const getAllForm137 = await Form137.find({
-          schoolId: { $eq: '635198ccbf1e526eaf697b45' },
+          schoolsWithAccess: user.id,
         }).sort({ createdAt: -1 })
         res.json({
           items: getAllForm137,

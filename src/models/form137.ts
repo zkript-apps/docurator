@@ -15,15 +15,9 @@ const form137 = new Schema({
   },
   schoolsWithAccess: [
     {
-      schoolId: {
-        type: Schema.Types.ObjectId,
-        ref: 'Users',
-        unique: true,
-      },
-      accessAdded: {
-        type: Date,
-        default: Date.now,
-      },
+      type: Schema.Types.ObjectId,
+      ref: 'Students',
+      unique: true,
     },
   ],
   createdAt: {
