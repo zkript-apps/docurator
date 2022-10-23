@@ -4,9 +4,18 @@ const { Schema } = mongoose
 const users = new Schema({
   email: String,
   password: String,
+  phoneNumber: {
+    type: String,
+    required: true,
+    unique: true,
+  },
+  firstName: String,
+  lastName: String,
+  middleName: String,
+  isVerified: Boolean,
   userType: {
     type: String,
-    enum: ['Admin', 'Staff'],
+    enum: ['Admin', 'Student'],
   },
   lastLoggedIn: Date,
   lastLoggedOut: Date,
