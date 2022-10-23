@@ -6,10 +6,11 @@ const {
   updateSubjectRecord,
   deleteSubjectRecord,
 } = require('./default')
+import { isUserLoggedIn } from '../../../helper'
 
-router.get('/', getAllSubjectRecords)
-router.post('/', addSubjectRecords)
-router.patch('/:id', updateSubjectRecord)
-router.delete('/:id', deleteSubjectRecord)
+router.get('/', isUserLoggedIn, getAllSubjectRecords)
+router.post('/', isUserLoggedIn, addSubjectRecords)
+router.patch('/:id', isUserLoggedIn, updateSubjectRecord)
+router.delete('/:id', isUserLoggedIn, deleteSubjectRecord)
 
 module.exports = router
