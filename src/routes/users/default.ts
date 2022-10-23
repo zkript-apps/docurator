@@ -9,8 +9,6 @@ import CryptoJS from 'crypto-js'
 import { keys } from '../../config/keys'
 import isEmpty from 'lodash/isEmpty'
 
-const router = express.Router()
-
 const getAllUsers = async (req, res) => {
   try {
     const usersCounts = await Users.find().countDocuments()
