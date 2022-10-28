@@ -40,7 +40,6 @@ const birthCertificate = new Schema({
     childPositionEtc: String,
     dateOfBirth: Date,
   },
-
   father: {
     lastName: String,
     firstName: String,
@@ -86,7 +85,7 @@ const birthCertificate = new Schema({
     },
     otherTitle: String,
   },
-  receivedAtLocalCivilRegistrarBy: {
+  receivedBy: {
     fulleName: String,
     titleOrPosition: String,
     date: Date,
