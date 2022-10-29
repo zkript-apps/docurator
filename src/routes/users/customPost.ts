@@ -33,7 +33,7 @@ const auth = async (req, res, next) => {
             userType: user.userType,
           },
           keys.signKey,
-          { expiresIn: '1d' }
+          { expiresIn: '2h' }
         )
         if (res.locals.user) {
           delete res.locals.user

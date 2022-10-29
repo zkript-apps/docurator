@@ -24,7 +24,8 @@ const getAllUsers = async (req, res) => {
 }
 
 const addUser = async (req, res) => {
-  const { email, password, phoneNumber, firstName, lastName } = req.body
+  const { email, password, phoneNumber, firstName, lastName, userType } =
+    req.body
 
   if (email && password && phoneNumber) {
     const encryptPassword = CryptoJS.AES.encrypt(password, keys.encryptKey)
@@ -34,7 +35,7 @@ const addUser = async (req, res) => {
       password: encryptPassword,
       firstName,
       lastName,
-      userType: 'Student',
+      userType,
     })
 
     try {

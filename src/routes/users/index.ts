@@ -6,7 +6,7 @@ import { isUserLoggedIn } from '../../../helper'
 
 //default
 router.get('/', isUserLoggedIn, getAllUsers)
-router.post('/', isUserLoggedIn, addUser)
+router.post('/', addUser)
 router.patch('/:id', isUserLoggedIn, updateUser)
 router.delete('/:id', isUserLoggedIn, deleteUser)
 
