@@ -5,7 +5,6 @@ const birthCertificate = new Schema({
   studentId: {
     type: Schema.Types.ObjectId,
     ref: 'Students',
-    required: true,
   },
   placeOfBirthProvince: String,
   placeOfBirthMunicipality: String,
