@@ -1,7 +1,7 @@
 import Students from '../../models/students'
 import {
   UNKNOWN_ERROR_OCCURRED,
-  LRN_EMAIL_EXISTS,
+  LRN_EXISTS,
   REQUIRED_VALUE_EMPTY,
 } from '../../utils/constants'
 import isEmpty from 'lodash/isEmpty'
@@ -77,7 +77,7 @@ const addStudent = async (req, res) => {
         const createStudent = await newStudent.save()
         res.json(createStudent)
       } else {
-        res.status(400).json(LRN_EMAIL_EXISTS)
+        res.status(400).json(LRN_EXISTS)
       }
     } catch (err: any) {
       const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED

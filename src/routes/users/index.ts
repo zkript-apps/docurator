@@ -1,7 +1,9 @@
 import express from 'express'
 const router = express.Router()
-const { getAllUsers, addUser, updateUser, deleteUser } = require('./default')
+import { getAllUsers, addUser, updateUser, deleteUser } from './default'
 import { auth } from './customPost'
+import { verifyAuth } from './customGet'
+
 import { isUserLoggedIn } from '../../../helper'
 
 //default
@@ -12,5 +14,8 @@ router.delete('/:id', isUserLoggedIn, deleteUser)
 
 //custom post
 router.post('/auth', auth)
+
+//custom get
+router.get('/verifyAuth', verifyAuth)
 
 module.exports = router

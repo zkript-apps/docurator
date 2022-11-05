@@ -4,6 +4,6 @@ export const REQUIRED_VALUE_EMPTY = 'Required fields can not be empty'
 export const EMAIL_PHONENUMBER_ALREADY_USED =
   'Email or Phone number is already used'
 export const RECORD_DOES_NOT_EXIST = 'Record does not exist'
-export const LRN_EMAIL_EXISTS = 'LRN or Email already exists'
+export const LRN_EXISTS = 'LRN already exists'
 export const RECORD_EXISTS = 'Record already exists'
 export const RECORD_ALREADY_DELETED = 'Record is alredy deleted'
