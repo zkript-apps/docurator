@@ -30,7 +30,7 @@ const getPaginatedStudents = async (req, res, next) => {
       res.json({
         items: getAllStudents,
         pageCount:
-          studentsCounts < limit ? 1 : Math.ceil(withdrawsCounts / limit),
+          studentsCounts < limit ? 1 : Math.ceil(studentsCounts / limit),
         page,
       })
     } catch ({ message: errMessage }) {
@@ -40,28 +40,6 @@ const getPaginatedStudents = async (req, res, next) => {
   } else {
     res.status(403).json('Unauthorized action')
   }
-
-  //   try {
-  //     const studentsCounts = await Students.find().countDocuments()
-  //     const getAllStudents = await Students.find()
-  //       .populate([
-  //         {
-  //           path: 'userId',
-  //           model: 'Students',
-  //         },
-  //       ])
-  //       .limit(limit)
-  //       .skip(page === 1 ? 0 : limit * (page - 1))
-  //       .sort({ createdAt: -1 })
-  //     res.json({
-  //       items: getAllStudents,
-  //       pageCount: studentsCounts < limit ? 1 : Math.ceil(studentsCounts / limit),
-  //       page,
-  //     })
-  //   } catch ({ message: errMessage }) {
-  //     const message = errMessage ? errMessage : UNKNOWN_ERROR_OCCURRED
-  //     res.status(500).json(message)
-  //   }
 }
 
 module.exports = {
