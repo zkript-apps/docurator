@@ -5,6 +5,7 @@ import { auth } from './customPost'
 import { verifyAuth } from './customGet'
 
 import { isUserLoggedIn } from '../../../helper'
+import { verifyAuth } from './customGet'
 
 //default
 router.get('/', isUserLoggedIn, getAllUsers)
