@@ -34,10 +34,7 @@ const students = new Schema({
     type: String,
     required: true,
   },
-  email: {
-    type: String,
-    unique: true,
-  },
+  email: String,
   mothersName: String,
   mothersOccupation: String,
   fathersName: String,
