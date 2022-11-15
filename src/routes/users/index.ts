@@ -3,9 +3,7 @@ const router = express.Router()
 import { getAllUsers, addUser, updateUser, deleteUser } from './default'
 import { auth } from './customPost'
 import { verifyAuth } from './customGet'
-
 import { isUserLoggedIn } from '../../../helper'
-import { verifyAuth } from './customGet'
 
 //default
 router.get('/', isUserLoggedIn, getAllUsers)
