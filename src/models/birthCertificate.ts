@@ -14,7 +14,7 @@ const birthCertificate = new Schema({
   mothersAddressProvince: String,
   mothersAddressMunicipality: String,
   mothersAddressHouseNumber: String,
-  mothersAddressStreet: Number,
+  mothersAddressStreet: String,
   mothersAddressIsInsideCityLimits: Boolean,
   mothersAddressIsOnAFarm: Boolean,
 
@@ -65,7 +65,7 @@ const birthCertificate = new Schema({
   informantsAddress: String,
 
   mothersMailingAddressHouseNumber: String,
-  mothersMailingAddressStreet: Number,
+  mothersMailingAddressStreet: String,
   mothersMailingAddressMunicipality: String,
   mothersMailingAddressProvince: String,
 

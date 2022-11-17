@@ -9,7 +9,14 @@ import isEmpty from 'lodash/isEmpty'
 const getAllStudents = async (req, res) => {
   try {
     const studentsCounts = await Students.find().countDocuments()
-    const getAllStudents = await Students.find().sort({ createdAt: -1 })
+    const getAllStudents = await Students.find()
+      .sort({ createdAt: -1 })
+      .populate([
+        {
+          path: 'userId',
+          model: 'Users',
+        },
+      ])
     res.json({
       items: getAllStudents,
       count: studentsCounts,

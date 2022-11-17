@@ -19,5 +19,5 @@ export default function (app: Application) {
   app.use(`${API_ROOT}/students`, StudentsRoute)
   app.use(`${API_ROOT}/days-present`, DaysPresentRoutes)
   app.use(`${API_ROOT}/form137`, Form137Route)
-  app.use(`${API_ROOT}/birth-certificate`, BirthCertificate)
+  app.use(`${API_ROOT}/birth-certificates`, BirthCertificate)
 }
