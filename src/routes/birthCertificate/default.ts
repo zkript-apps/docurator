@@ -13,6 +13,13 @@ const getAllBirthCertificate = async (req, res) => {
     const getAllBirthCertificate = await birthCertificate
       .find()
       .sort({ createdAt: -1 })
+      .sort({ createdAt: -1 })
+      .populate([
+        {
+          path: 'studentId',
+          model: 'Students',
+        },
+      ])
     res.json({
       items: getAllBirthCertificate,
       count: daysOfSchoolCounts,

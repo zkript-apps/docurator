@@ -10,7 +10,14 @@ import isEmpty from 'lodash/isEmpty'
 const getAllForm137 = async (req, res) => {
   try {
     const form137Counts = await Form137.find().countDocuments()
-    const getAllForm137 = await Form137.find().sort({ createdAt: -1 })
+    const getAllForm137 = await Form137.find()
+      .sort({ createdAt: -1 })
+      .populate([
+        {
+          path: 'studentId',
+          model: 'Students',
+        },
+      ])
     res.json({
       items: getAllForm137,
       count: form137Counts,
