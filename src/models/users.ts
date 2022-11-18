@@ -17,6 +17,10 @@ const users = new Schema({
     type: String,
     enum: ['Admin', 'Student'],
   },
+  schoolId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Schools',
+  },
   lastLoggedIn: Date,
   lastLoggedOut: Date,
   blockedAt: Date,

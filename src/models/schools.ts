@@ -2,11 +2,7 @@ import mongoose from 'mongoose'
 const { Schema } = mongoose
 
 const schools = new Schema({
-  schoolId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Users',
-    unique: true,
-  },
+  schoolName: String,
   email: {
     type: String,
     required: true,
