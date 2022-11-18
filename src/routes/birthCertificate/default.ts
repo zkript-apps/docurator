@@ -11,8 +11,9 @@ const getAllBirthCertificate = async (req, res) => {
   try {
     const daysOfSchoolCounts = await birthCertificate.find().countDocuments()
     const getAllBirthCertificate = await birthCertificate
-      .find()
-      .sort({ createdAt: -1 })
+      .find({
+        deletedAt: { $exists: false },
+      })
       .sort({ createdAt: -1 })
       .populate([
         {

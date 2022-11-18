@@ -11,7 +11,9 @@ import isEmpty from 'lodash/isEmpty'
 const getAllAttendances = async (req, res) => {
   try {
     const attendancesCounts = await Attendances.find().countDocuments()
-    const getAllAttendances = await Attendances.find().sort({
+    const getAllAttendances = await Attendances.find({
+      deletedAt: { $exists: false },
+    }).sort({
       createdAt: -1,
     })
     res.json({
