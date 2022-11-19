@@ -108,4 +108,4 @@ const birthCertificates = new Schema({
   deletedAt: Date,
 })
 
-module.exports = mongoose.model('BirthCertificate', birthCertificates)
+module.exports = mongoose.model('BirthCertificates', birthCertificates)
