@@ -1,4 +1,4 @@
-import birthCertificate from '../../models/birthCertificate'
+import birthCertificate from '../../models/birthCertificates'
 import {
   UNKNOWN_ERROR_OCCURRED,
   RECORD_EXISTS,
@@ -7,12 +7,15 @@ import {
 } from '../../utils/constants'
 import isEmpty from 'lodash/isEmpty'
 
-const getAllBirthCertificate = async (req, res) => {
+const getAllBirthCertificates = async (req, res) => {
   try {
-    const daysOfSchoolCounts = await birthCertificate.find().countDocuments()
-    const getAllBirthCertificate = await birthCertificate
+    const birthCertificatesCounts = await birthCertificate
       .find()
-      .sort({ createdAt: -1 })
+      .countDocuments()
+    const getAllBirthCertificate = await birthCertificate
+      .find({
+        deletedAt: { $exists: false },
+      })
       .sort({ createdAt: -1 })
       .populate([
         {
@@ -22,7 +25,7 @@ const getAllBirthCertificate = async (req, res) => {
       ])
     res.json({
       items: getAllBirthCertificate,
-      count: daysOfSchoolCounts,
+      count: birthCertificatesCounts,
     })
   } catch (err: any) {
     const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
@@ -282,7 +285,7 @@ const deleteBirthCertificate = async (req, res) => {
 }
 
 module.exports = {
-  getAllBirthCertificate,
+  getAllBirthCertificates,
   addBirthCertificate,
   updateBirthCertificate,
   deleteBirthCertificate,
