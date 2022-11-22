@@ -9,6 +9,7 @@ import Form137Route from './form137'
 import StudentsRoute from './students'
 import DaysPresentRoutes from './daysPresent'
 import BirthCertificate from './birthCertificate'
+import Schools from './schools'
 
 export default function (app: Application) {
   app.use(`${API_ROOT}/users`, UsersRoute)
@@ -20,4 +21,5 @@ export default function (app: Application) {
   app.use(`${API_ROOT}/days-present`, DaysPresentRoutes)
   app.use(`${API_ROOT}/form137`, Form137Route)
   app.use(`${API_ROOT}/birth-certificates`, BirthCertificate)
+  app.use(`${API_ROOT}/schools`, Schools)
 }
