@@ -31,7 +31,6 @@ const getAllStudents = async (req, res) => {
 
 const addStudent = async (req, res) => {
   const {
-    userId,
     lrn,
     statusOfApplicant,
     schoolName,
@@ -55,7 +54,6 @@ const addStudent = async (req, res) => {
 
   if (lrn && statusOfApplicant && schoolName && phoneNumber) {
     const newStudent = new Students({
-      userId,
       lrn,
       statusOfApplicant,
       schoolName,

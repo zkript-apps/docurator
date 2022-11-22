@@ -8,8 +8,10 @@ import SubjectRecords from './subjectRecords'
 import Form137Route from './form137'
 import StudentsRoute from './students'
 import DaysPresentRoutes from './daysPresent'
-import BirthCertificates from './birthCertificates'
 import GoodMoralCertificates from './goodMoralCertificates'
+import BirthCertificates from './birthCertificate'
+import ClaimAccess from './claimAccess'
+import Schools from './schools'
 
 export default function (app: Application) {
   app.use(`${API_ROOT}/users`, UsersRoute)
@@ -22,4 +24,6 @@ export default function (app: Application) {
   app.use(`${API_ROOT}/form137`, Form137Route)
   app.use(`${API_ROOT}/birth-certificates`, BirthCertificates)
   app.use(`${API_ROOT}/good-moral-certificates`, GoodMoralCertificates)
+  app.use(`${API_ROOT}/claim-access`, ClaimAccess)
+  app.use(`${API_ROOT}/schools`, Schools)
 }

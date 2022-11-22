@@ -2,14 +2,19 @@ import mongoose from 'mongoose'
 const { Schema } = mongoose
 
 const schools = new Schema({
-  schoolName: String,
+  schoolName: {
+    type: String,
+    unique: true,
+  },
   email: {
     type: String,
     required: true,
+    unique: true,
   },
   phoneNumber: {
     type: String,
     required: true,
+    unique: true,
   },
   schoolStreet: String,
   schoolBarangay: String,
