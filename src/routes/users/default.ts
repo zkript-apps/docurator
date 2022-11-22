@@ -12,7 +12,9 @@ import isEmpty from 'lodash/isEmpty'
 const getAllUsers = async (req, res) => {
   try {
     const usersCounts = await Users.find().countDocuments()
-    const getAllUsers = await Users.find().sort({ createdAt: -1 })
+    const getAllUsers = await Users.find({
+      deletedAt: { $exists: false },
+    }).sort({ createdAt: -1 })
     res.json({
       items: getAllUsers,
       count: usersCounts,
