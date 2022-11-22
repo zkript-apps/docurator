@@ -6,9 +6,9 @@ const studentsClaimRecords = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Users',
   },
-  form137Id: {
+  studentId: {
     type: Schema.Types.ObjectId,
-    ref: 'Form137',
+    ref: 'Students',
   },
   claimedAt: Date,
   createdAt: {
