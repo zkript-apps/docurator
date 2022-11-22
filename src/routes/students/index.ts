@@ -16,6 +16,5 @@ router.delete('/:id', isUserLoggedIn, deleteStudent)
 
 //custom patch
 router.patch('/claim-record/:id', isUserLoggedIn, claimStudent)
-router.patch('/claim-access/:id', isUserLoggedIn, claimAccess)
 
 module.exports = router
