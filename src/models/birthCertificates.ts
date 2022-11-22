@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 const { Schema } = mongoose
 
-const birthCertificate = new Schema({
+const birthCertificates = new Schema({
   studentId: {
     type: Schema.Types.ObjectId,
     ref: 'Students',
@@ -108,4 +108,4 @@ const birthCertificate = new Schema({
   deletedAt: Date,
 })
 
-module.exports = mongoose.model('BirthCertificate', birthCertificate)
+module.exports = mongoose.model('BirthCertificates', birthCertificates)

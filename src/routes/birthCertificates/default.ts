@@ -1,4 +1,4 @@
-import birthCertificate from '../../models/birthCertificate'
+import BirthCertificates from '../../models/birthCertificates'
 import {
   UNKNOWN_ERROR_OCCURRED,
   RECORD_EXISTS,
@@ -7,13 +7,13 @@ import {
 } from '../../utils/constants'
 import isEmpty from 'lodash/isEmpty'
 
-const getAllBirthCertificate = async (req, res) => {
+const getAllBirthCertificates = async (req, res) => {
   try {
-    const daysOfSchoolCounts = await birthCertificate.find().countDocuments()
-    const getAllBirthCertificate = await birthCertificate
-      .find({
-        deletedAt: { $exists: false },
-      })
+    const birthCertificatesCounts =
+      await BirthCertificates.find().countDocuments()
+    const getAllBirthCertificate = await BirthCertificates.find({
+      deletedAt: { $exists: false },
+    })
       .sort({ createdAt: -1 })
       .populate([
         {
@@ -23,7 +23,7 @@ const getAllBirthCertificate = async (req, res) => {
       ])
     res.json({
       items: getAllBirthCertificate,
-      count: daysOfSchoolCounts,
+      count: birthCertificatesCounts,
     })
   } catch (err: any) {
     const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
@@ -119,7 +119,7 @@ const addBirthCertificate = async (req, res) => {
   } = req.body
 
   if (studentId) {
-    const newBirthCertificate = new birthCertificate({
+    const newBirthCertificate = new BirthCertificates({
       studentId,
       placeOfBirthProvince,
       placeOfBirthMunicipality,
@@ -206,7 +206,7 @@ const addBirthCertificate = async (req, res) => {
     })
 
     try {
-      const getExistingBirthCertificate = await birthCertificate.find({
+      const getExistingBirthCertificate = await BirthCertificates.find({
         studentId,
         deletedAt: { $exists: false },
       })
@@ -226,7 +226,7 @@ const addBirthCertificate = async (req, res) => {
 }
 
 const updateBirthCertificate = async (req, res) => {
-  const getBirthCertificate = await birthCertificate.find({
+  const getBirthCertificate = await BirthCertificates.find({
     _id: req.params.id,
     deletedAt: { $exists: true },
   })
@@ -234,14 +234,15 @@ const updateBirthCertificate = async (req, res) => {
   if (getBirthCertificate.length === 0) {
     if (!isEmpty(condition)) {
       try {
-        const updateBirthCertificate = await birthCertificate.findByIdAndUpdate(
-          req.params.id,
-          {
-            $set: req.body,
-            updatedAt: Date.now(),
-          },
-          { new: true }
-        )
+        const updateBirthCertificate =
+          await BirthCertificates.findByIdAndUpdate(
+            req.params.id,
+            {
+              $set: req.body,
+              updatedAt: Date.now(),
+            },
+            { new: true }
+          )
         res.json(updateBirthCertificate)
       } catch (err: any) {
         const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
@@ -257,14 +258,14 @@ const updateBirthCertificate = async (req, res) => {
 
 const deleteBirthCertificate = async (req, res) => {
   try {
-    const getBirthCertificate = await birthCertificate.find({
+    const getBirthCertificate = await BirthCertificates.find({
       _id: req.params.id,
       deletedAt: {
         $exists: false,
       },
     })
     if (getBirthCertificate.length > 0) {
-      const deleteBirthCertificate = await birthCertificate.findByIdAndUpdate(
+      const deleteBirthCertificate = await BirthCertificates.findByIdAndUpdate(
         req.params.id,
         {
           $set: {
@@ -283,7 +284,7 @@ const deleteBirthCertificate = async (req, res) => {
 }
 
 module.exports = {
-  getAllBirthCertificate,
+  getAllBirthCertificates,
   addBirthCertificate,
   updateBirthCertificate,
   deleteBirthCertificate,
