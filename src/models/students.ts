@@ -7,6 +7,17 @@ const students = new Schema({
     ref: 'Users',
     unique: true,
   },
+  userStudentId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Users',
+    unique: true,
+  },
+  studentClaimedAt: Date,
+  claimedBy: {
+    type: Schema.Types.ObjectId,
+    ref: 'Users',
+  },
+  accessClaimedAt: Date,
   lrn: {
     type: String,
     unique: true,
