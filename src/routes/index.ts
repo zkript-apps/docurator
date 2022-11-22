@@ -9,7 +9,7 @@ import Form137Route from './form137'
 import StudentsRoute from './students'
 import DaysPresentRoutes from './daysPresent'
 import GoodMoralCertificates from './goodMoralCertificates'
-import BirthCertificates from './birthCertificate'
+import BirthCertificates from './birthCertificates'
 import ClaimAccess from './claimAccess'
 import Schools from './schools'
 
