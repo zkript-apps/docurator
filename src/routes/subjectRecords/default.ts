@@ -1,7 +1,6 @@
 import SubjectRecords from '../../models/subjectRecords'
 import {
   UNKNOWN_ERROR_OCCURRED,
-  RECORD_EXISTS,
   REQUIRED_VALUE_EMPTY,
   RECORD_DOES_NOT_EXIST,
   RECORD_ALREADY_DELETED,

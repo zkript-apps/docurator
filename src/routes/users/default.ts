@@ -1,4 +1,3 @@
-import express from 'express'
 import Users from '../../models/users'
 import {
   UNKNOWN_ERROR_OCCURRED,
@@ -37,7 +36,7 @@ const addUser = async (req, res) => {
       password: encryptPassword,
       firstName,
       lastName,
-      userType,
+      userType: 'Admin',
     })
 
     try {
