@@ -24,6 +24,9 @@ const changePassword = async (req, res) => {
         )
 
         const dbPassword = oldPasswordDecrypted.toString(CryptoJS.enc.Utf8)
+        if (dbPassword === newPassword) {
+          throw new Error('You cannot use your old password')
+        }
         if (!verifyUser || dbPassword !== oldPassword) {
           throw new Error('Wrong old password')
         }
@@ -32,6 +35,7 @@ const changePassword = async (req, res) => {
           newPassword,
           keys.encryptKey
         ).toString()
+
         const updateUser = await Users.findByIdAndUpdate(
           req.params.id,
           {
