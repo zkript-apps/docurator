@@ -9,7 +9,9 @@ import isEmpty from 'lodash/isEmpty'
 
 const getAllDaysOfSchool = async (req, res) => {
   try {
-    const daysOfSchoolCounts = await DaysOfSchool.find().countDocuments()
+    const daysOfSchoolCounts = await DaysOfSchool.find({
+      deletedAt: { $exists: false },
+    }).countDocuments()
     const getAllDaysOfSchool = await DaysOfSchool.find({
       deletedAt: { $exists: false },
     }).sort({ createdAt: -1 })

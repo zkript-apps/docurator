@@ -8,7 +8,9 @@ import isEmpty from 'lodash/isEmpty'
 
 const getAllSchools = async (req, res) => {
   try {
-    const schoolsCounts = await Schools.find().countDocuments()
+    const schoolsCounts = await Schools.find({
+      deletedAt: { $exists: false },
+    }).countDocuments()
     const getAllSchools = await Schools.find({
       deletedAt: { $exists: false },
     }).sort({ createdAt: -1 })

@@ -9,7 +9,9 @@ import isEmpty from 'lodash/isEmpty'
 
 const getAllSubjectRecords = async (req, res) => {
   try {
-    const subjectRecordCounts = await SubjectRecords.find().countDocuments()
+    const subjectRecordCounts = await SubjectRecords.find({
+      deletedAt: { $exists: false },
+    }).countDocuments()
     const getAllSubjectRecords = await SubjectRecords.find({
       deletedAt: { $exists: false },
     }).sort({

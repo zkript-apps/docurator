@@ -7,8 +7,9 @@ import isEmpty from 'lodash/isEmpty'
 
 const getAllGoodMoralCertificates = async (req, res) => {
   try {
-    const goodMoralCertificatesCounts =
-      await GoodMoralCertificates.find().countDocuments()
+    const goodMoralCertificatesCounts = await GoodMoralCertificates.find({
+      deletedAt: { $exists: false },
+    }).countDocuments()
     const getAllGoodMoralCertificates = await GoodMoralCertificates.find({
       deletedAt: { $exists: false },
     })

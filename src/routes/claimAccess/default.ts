@@ -10,7 +10,10 @@ import isEmpty from 'lodash/isEmpty'
 const getAllClaimAccess = async (req, res) => {
   if (res.locals.user) {
     try {
-      const claimAccessCounts = await ClaimAccess.find().countDocuments()
+      const claimAccessCounts = await ClaimAccess.find({
+        accessClaimedBy: res.locals.user._id,
+        deletedAt: { $exists: false },
+      }).countDocuments()
       const getAllClaimAccess = await ClaimAccess.find({
         accessClaimedBy: res.locals.user._id,
         deletedAt: { $exists: false },
