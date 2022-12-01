@@ -1,4 +1,4 @@
-import GoodMoralCertificates from '../../models/goodMoralCertficates'
+import GoodMoralCertificates from '../../models/goodMoralCertificates'
 import {
   UNKNOWN_ERROR_OCCURRED,
   REQUIRED_VALUE_EMPTY,
@@ -11,7 +11,18 @@ const getAllGoodMoralCertificates = async (req, res) => {
       await GoodMoralCertificates.find().countDocuments()
     const getAllGoodMoralCertificates = await GoodMoralCertificates.find({
       deletedAt: { $exists: false },
-    }).sort({ createdAt: -1 })
+    })
+      .sort({ createdAt: -1 })
+      .populate([
+        {
+          path: 'studentId',
+          model: 'Students',
+          populate: {
+            path: 'userId',
+            model: 'Users',
+          },
+        },
+      ])
     res.json({
       items: getAllGoodMoralCertificates,
       count: goodMoralCertificatesCounts,
@@ -24,9 +35,7 @@ const getAllGoodMoralCertificates = async (req, res) => {
 
 const addGoodMoralCertificates = async (req, res) => {
   const {
-    firstName,
-    lastName,
-    middleName,
+    studentId,
     lrn,
     schoolName,
     academicYear,
@@ -36,9 +45,7 @@ const addGoodMoralCertificates = async (req, res) => {
   } = req.body
 
   if (
-    firstName &&
-    lastName &&
-    middleName &&
+    studentId &&
     schoolName &&
     academicYear &&
     signedBy &&
@@ -46,9 +53,7 @@ const addGoodMoralCertificates = async (req, res) => {
     dateGiven
   ) {
     const newGoodMoralCertificate = new GoodMoralCertificates({
-      firstName,
-      lastName,
-      middleName,
+      studentId,
       lrn,
       schoolName,
       academicYear,

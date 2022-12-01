@@ -1,7 +1,7 @@
 import ClaimAccess from '../../models/claimAccess'
-import Form137 from '../../models/form137'
+import GoodMoralCertificates from '../../models/goodMoralCertificates'
 
-const getAllForm137WithAccess = async (req, res) => {
+const getAllGoodMoralCertificatesWithAccess = async (req, res) => {
   // get all student id of all students that the school claimed string[]
   if (res.locals.user) {
     try {
@@ -13,11 +13,11 @@ const getAllForm137WithAccess = async (req, res) => {
       )
 
       // get all students form137 that exist in the above result using $in query
-      const form137Counts = await Form137.find({
+      const goodMoralCertificatesCounts = await GoodMoralCertificates.find({
         deletedAt: { $exists: false },
         studentId: { $in: studentIds },
       }).countDocuments()
-      const getAllForm137 = await Form137.find({
+      const getAllGoodMoralCertificates = await GoodMoralCertificates.find({
         deletedAt: { $exists: false },
         studentId: { $in: studentIds },
       })
@@ -26,11 +26,15 @@ const getAllForm137WithAccess = async (req, res) => {
           {
             path: 'studentId',
             model: 'Students',
+            populate: {
+              path: 'userId',
+              model: 'Users',
+            },
           },
         ])
       res.json({
-        items: getAllForm137,
-        count: form137Counts,
+        items: getAllGoodMoralCertificates,
+        count: goodMoralCertificatesCounts,
       })
     } catch (err: any) {
       const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
@@ -40,5 +44,5 @@ const getAllForm137WithAccess = async (req, res) => {
 }
 
 module.exports = {
-  getAllForm137WithAccess,
+  getAllGoodMoralCertificatesWithAccess,
 }
