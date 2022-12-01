@@ -40,18 +40,18 @@ const getAllClaimAccess = async (req, res) => {
 }
 
 const addClaimAccess = async (req, res) => {
-  const { studentId, accessClaimedBy, accessClaimedAt } = req.body
+  const { studentId, schoolId, accessClaimedAt } = req.body
 
   if (studentId && accessClaimedBy) {
     const newClaimAccess = new ClaimAccess({
       studentId,
-      accessClaimedBy,
+      schoolId,
       accessClaimedAt,
     })
 
     try {
       const getExistingClaimAccess = await ClaimAccess.find({
-        $and: [{ studentId }, { accessClaimedBy }],
+        $and: [{ studentId }, { schoolId }],
         deletedAt: { $exists: false },
       })
       if (getExistingClaimAccess.length === 0) {
