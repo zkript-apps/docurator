@@ -2,15 +2,27 @@ import mongoose from 'mongoose'
 const { Schema } = mongoose
 
 const goodMoralCertificates = new Schema({
-  lastName: String,
-  firstName: String,
-  middleName: String,
+  lastName: {
+    type: String,
+    required: true,
+  },
+  firstName: {
+    type: String,
+    required: true,
+  },
+  middleName: {
+    type: String,
+    required: true,
+  },
   lrn: {
     type: String,
     minlength: 12,
     maxlength: 12,
   },
-  schoolName: String,
+  schoolName: {
+    type: String,
+    required: true,
+  },
   academicYear: {
     from: {
       type: String,
@@ -21,9 +33,18 @@ const goodMoralCertificates = new Schema({
       required: true,
     },
   },
-  signedBy: String,
-  postion: String,
-  dateGiven: Date,
+  signedBy: {
+    type: String,
+    required: true,
+  },
+  position: {
+    type: String,
+    required: true,
+  },
+  dateGiven: {
+    type: Date,
+    required: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,

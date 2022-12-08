@@ -1,9 +1,7 @@
-import express from 'express'
-import GoodMoralCertificates from '../../models/goodMoralCertficates'
+import GoodMoralCertificates from '../../models/goodMoralCertificates'
 import {
   UNKNOWN_ERROR_OCCURRED,
   REQUIRED_VALUE_EMPTY,
-  EMAIL_PHONENUMBER_ALREADY_USED,
 } from '../../utils/constants'
 import isEmpty from 'lodash/isEmpty'
 
