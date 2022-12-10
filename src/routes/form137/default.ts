@@ -9,7 +9,9 @@ import isEmpty from 'lodash/isEmpty'
 
 const getAllForm137 = async (req, res) => {
   try {
-    const form137Counts = await Form137.find().countDocuments()
+    const form137Counts = await Form137.find({
+      deletedAt: { $exists: false },
+    }).countDocuments()
     const getAllForm137 = await Form137.find({
       deletedAt: { $exists: false },
     })

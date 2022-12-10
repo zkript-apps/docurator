@@ -9,7 +9,9 @@ import isEmpty from 'lodash/isEmpty'
 
 const getAllEligibility = async (req, res) => {
   try {
-    const eligibilityCounts = await Eligibility.find().countDocuments()
+    const eligibilityCounts = await Eligibility.find({
+      deletedAt: { $exists: false },
+    }).countDocuments()
     const getAllEligibility = await Eligibility.find({
       deletedAt: { $exists: false },
     }).sort({ createdAt: -1 })

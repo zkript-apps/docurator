@@ -1,4 +1,3 @@
-import express from 'express'
 import Users from '../../models/users'
 import {
   UNKNOWN_ERROR_OCCURRED,
@@ -11,7 +10,9 @@ import isEmpty from 'lodash/isEmpty'
 
 const getAllUsers = async (req, res) => {
   try {
-    const usersCounts = await Users.find().countDocuments()
+    const usersCounts = await Users.find({
+      deletedAt: { $exists: false },
+    }).countDocuments()
     const getAllUsers = await Users.find({
       deletedAt: { $exists: false },
     }).sort({ createdAt: -1 })
@@ -37,7 +38,7 @@ const addUser = async (req, res) => {
       password: encryptPassword,
       firstName,
       lastName,
-      userType,
+      userType: 'Admin',
     })
 
     try {
