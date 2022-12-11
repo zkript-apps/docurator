@@ -2,6 +2,17 @@ import mongoose from 'mongoose'
 const { Schema } = mongoose
 
 const goodMoralCertificates = new Schema({
+  lastName: {
+    type: String,
+    required: true,
+  },
+  firstName: {
+    type: String,
+    required: true,
+  },
+  middleName: {
+    type: String,
+    required: true,
   studentId: {
     type: Schema.Types.ObjectId,
     ref: 'Students',
