@@ -1,7 +1,6 @@
 import SubjectRecords from '../../models/subjectRecords'
 import {
   UNKNOWN_ERROR_OCCURRED,
-  RECORD_EXISTS,
   REQUIRED_VALUE_EMPTY,
   RECORD_DOES_NOT_EXIST,
   RECORD_ALREADY_DELETED,
@@ -10,7 +9,9 @@ import isEmpty from 'lodash/isEmpty'
 
 const getAllSubjectRecords = async (req, res) => {
   try {
-    const subjectRecordCounts = await SubjectRecords.find().countDocuments()
+    const subjectRecordCounts = await SubjectRecords.find({
+      deletedAt: { $exists: false },
+    }).countDocuments()
     const getAllSubjectRecords = await SubjectRecords.find({
       deletedAt: { $exists: false },
     }).sort({

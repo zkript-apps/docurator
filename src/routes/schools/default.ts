@@ -1,7 +1,6 @@
 import Schools from '../../models/schools'
 import {
   UNKNOWN_ERROR_OCCURRED,
-  RECORD_EXISTS,
   REQUIRED_VALUE_EMPTY,
   RECORD_DOES_NOT_EXIST,
 } from '../../utils/constants'
@@ -9,7 +8,9 @@ import isEmpty from 'lodash/isEmpty'
 
 const getAllSchools = async (req, res) => {
   try {
-    const schoolsCounts = await Schools.find().countDocuments()
+    const schoolsCounts = await Schools.find({
+      deletedAt: { $exists: false },
+    }).countDocuments()
     const getAllSchools = await Schools.find({
       deletedAt: { $exists: false },
     }).sort({ createdAt: -1 })

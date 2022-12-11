@@ -9,8 +9,9 @@ import isEmpty from 'lodash/isEmpty'
 
 const getAllBirthCertificates = async (req, res) => {
   try {
-    const birthCertificatesCounts =
-      await BirthCertificates.find().countDocuments()
+    const birthCertificatesCounts = await BirthCertificates.find({
+      deletedAt: { $exists: false },
+    }).countDocuments()
     const getAllBirthCertificate = await BirthCertificates.find({
       deletedAt: { $exists: false },
     })

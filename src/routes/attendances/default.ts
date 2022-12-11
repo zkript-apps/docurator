@@ -1,7 +1,6 @@
 import Attendances from '../../models/attendances'
 import {
   UNKNOWN_ERROR_OCCURRED,
-  RECORD_EXISTS,
   REQUIRED_VALUE_EMPTY,
   RECORD_DOES_NOT_EXIST,
   RECORD_ALREADY_DELETED,
@@ -10,7 +9,9 @@ import isEmpty from 'lodash/isEmpty'
 
 const getAllAttendances = async (req, res) => {
   try {
-    const attendancesCounts = await Attendances.find().countDocuments()
+    const attendancesCounts = await Attendances.find({
+      deletedAt: { $exists: false },
+    }).countDocuments()
     const getAllAttendances = await Attendances.find({
       deletedAt: { $exists: false },
     }).sort({
