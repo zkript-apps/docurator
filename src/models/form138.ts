@@ -32,7 +32,14 @@ const form138 = new Schema({
   parentsSignatureThirdGrading: String,
   parentsSignatureFourthGrading: String,
 
-  subjectRecords: [Schema.Types.ObjectId],
+  subjectRecords: [
+    {
+      subjectRecordId: {
+        type: Schema.Types.ObjectId,
+        ref: 'SubjectRecords',
+      },
+    },
+  ],
   attendanceId: {
     type: Schema.Types.ObjectId,
     ref: 'Students',
@@ -47,8 +54,8 @@ const form138 = new Schema({
     required: true,
   },
   promotedTo: {
+    type: String,
     enum: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-    required: true,
   },
   certificateOfTranferDate: Date,
   certificateOfTranferTeacher: String,
@@ -56,8 +63,8 @@ const form138 = new Schema({
 
   CancellationOfEligibilityAdmittedIn: String,
   CancellationOfEligibilityGrade: {
+    type: String,
     enum: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-    required: true,
   },
   CancellationOfEligibilityDate: Date,
   createdAt: {
@@ -68,4 +75,4 @@ const form138 = new Schema({
   deletedAt: Date,
 })
 
-module.exports = mongoose.model('Form137', form138)
+module.exports = mongoose.model('Form138', form138)

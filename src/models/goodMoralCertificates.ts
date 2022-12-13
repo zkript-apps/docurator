@@ -13,6 +13,7 @@ const goodMoralCertificates = new Schema({
   middleName: {
     type: String,
     required: true,
+  },
   studentId: {
     type: Schema.Types.ObjectId,
     ref: 'Students',
