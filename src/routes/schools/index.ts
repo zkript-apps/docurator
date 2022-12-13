@@ -9,7 +9,7 @@ const {
 import { isUserLoggedIn } from '../../../helper'
 
 router.get('/', isUserLoggedIn, getAllSchools)
-router.post('/', isUserLoggedIn, addSchools)
+router.post('/', addSchools)
 router.patch('/:id', isUserLoggedIn, updateSchools)
 router.delete('/:id', isUserLoggedIn, deleteSchools)
 

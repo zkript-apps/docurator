@@ -1,7 +1,7 @@
 import express from 'express'
 const router = express.Router()
 import { getAllUsers, addUser, updateUser, deleteUser } from './default'
-import { auth } from './customPost'
+import { auth, createAccount } from './customPost'
 import { verifyAuth } from './customGet'
 import { isUserLoggedIn } from '../../../helper'
 import changePassword from './customPatch'
@@ -14,6 +14,7 @@ router.delete('/:id', isUserLoggedIn, deleteUser)
 
 //custom post
 router.post('/auth', auth)
+router.post('/create-account', createAccount)
 
 //custom get
 router.get('/verifyAuth', verifyAuth)

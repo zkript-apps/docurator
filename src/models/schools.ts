@@ -4,17 +4,15 @@ const { Schema } = mongoose
 const schools = new Schema({
   schoolName: {
     type: String,
-    unique: true,
+    required: true,
   },
-  email: {
+  schoolEmail: {
     type: String,
     required: true,
-    unique: true,
   },
-  phoneNumber: {
+  schoolPhoneNumber: {
     type: String,
     required: true,
-    unique: true,
   },
   schoolStreet: String,
   schoolBarangay: String,

@@ -30,7 +30,7 @@ const addUser = async (req, res) => {
   const { email, password, phoneNumber, firstName, lastName, userType } =
     req.body
 
-  if (email && password && phoneNumber) {
+  if (email && password && phoneNumber && userType) {
     const encryptPassword = CryptoJS.AES.encrypt(password, keys.encryptKey)
     const newUser = new Users({
       email,
@@ -38,9 +38,8 @@ const addUser = async (req, res) => {
       password: encryptPassword,
       firstName,
       lastName,
-      userType: 'Admin',
+      userType,
     })
-
     try {
       const getExistingUser = await Users.find({
         $or: [{ email }, { phoneNumber }],
