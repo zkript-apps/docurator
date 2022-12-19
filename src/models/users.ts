@@ -23,6 +23,9 @@ const users = new Schema({
   },
   lastLoggedIn: Date,
   lastLoggedOut: Date,
+  uuid: String,
+  publicKey: String,
+  privateKey: String,
   blockedAt: Date,
   createdAt: {
     type: Date,

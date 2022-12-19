@@ -1,8 +1,15 @@
 import Users from '../../models/users'
-import { UNKNOWN_ERROR_OCCURRED } from '../../utils/constants'
+import Schools from '../../models/schools'
+import {
+  UNKNOWN_ERROR_OCCURRED,
+  EMAIL_PHONENUMBER_ALREADY_USED,
+  SCHOOL_ALREADY_EXISTS,
+  REQUIRED_VALUE_EMPTY,
+} from '../../utils/constants'
 import { keys } from '../../config/keys'
 import CryptoJS from 'crypto-js'
 import jwt from 'jsonwebtoken'
+import { v4 as uuidv4 } from 'uuid'
 
 const auth = async (req, res, next) => {
   const { email, password, phoneNumber } = req.body
@@ -49,6 +56,137 @@ const auth = async (req, res, next) => {
   }
 }
 
+const createAccount = async (req, res) => {
+  const {
+    schoolName,
+    schoolEmail,
+    schoolPhoneNumber,
+    schoolStreet,
+    schoolBarangay,
+    schoolMunicipality,
+    schoolProvince,
+    schoolZipCode,
+    //user req body
+    email,
+    password,
+    phoneNumber,
+    firstName,
+    lastName,
+    userType,
+  } = req.body
+
+  if (userType === 'Admin') {
+    if (
+      schoolName &&
+      schoolEmail &&
+      schoolPhoneNumber &&
+      email &&
+      password &&
+      phoneNumber &&
+      userType
+    ) {
+      const newSchools = new Schools({
+        schoolName,
+        schoolEmail,
+        schoolPhoneNumber,
+        schoolStreet,
+        schoolBarangay,
+        schoolMunicipality,
+        schoolProvince,
+        schoolZipCode,
+      })
+      try {
+        const getExistingSchools = await Schools.find({
+          $or: [
+            { schoolName: req.body.schoolName },
+            { schoolEmail: req.body.schoolEmail },
+            { schoolPhoneNumber: req.body.schoolPhoneNumber },
+          ],
+          deletedAt: { $exists: false },
+        })
+        console.log(getExistingSchools.length)
+        if (getExistingSchools.length === 0) {
+          const createSchools = await newSchools.save()
+          //create user account
+          const encryptPassword = CryptoJS.AES.encrypt(
+            password,
+            keys.encryptKey
+          )
+          const uuidKey = uuidv4()
+          const encryptPublicKey = CryptoJS.AES.encrypt(
+            createSchools.schoolName,
+            uuidKey
+          )
+          const encryptPrivateKey = CryptoJS.AES.encrypt(
+            createSchools._id.toString(),
+            uuidKey
+          )
+          const newUser = new Users({
+            email,
+            phoneNumber,
+            password: encryptPassword,
+            firstName,
+            lastName,
+            userType,
+            schoolId: createSchools._id.toString(),
+            uuid: uuidKey,
+            publicKey: 'pub_' + encryptPublicKey,
+            privateKey: 'pri_' + encryptPrivateKey,
+          })
+          try {
+            const getExistingUser = await Users.find({
+              $or: [{ email }, { phoneNumber }],
+              deletedAt: { $exists: false },
+            })
+            if (getExistingUser.length === 0) {
+              const createUser = await newUser.save()
+              res.json(createUser)
+            } else {
+              res.status(400).json(EMAIL_PHONENUMBER_ALREADY_USED)
+            }
+          } catch (err: any) {
+            const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
+            res.status(500).json(message)
+          }
+        } else {
+          res.status(400).json(SCHOOL_ALREADY_EXISTS)
+        }
+      } catch (err: any) {
+        const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
+        res.status(500).json(message)
+      }
+    } else {
+      res.status(400).json(REQUIRED_VALUE_EMPTY)
+    }
+  } else if (userType === 'Student') {
+    const encryptPassword = CryptoJS.AES.encrypt(password, keys.encryptKey)
+    const newUser = new Users({
+      email,
+      phoneNumber,
+      password: encryptPassword,
+      firstName,
+      lastName,
+      userType,
+    })
+    try {
+      const getExistingUser = await Users.find({
+        $or: [{ email }, { phoneNumber }],
+        deletedAt: { $exists: false },
+      })
+      if (getExistingUser.length === 0) {
+        const createUser = await newUser.save()
+        res.json(createUser)
+      } else {
+        res.status(400).json(EMAIL_PHONENUMBER_ALREADY_USED)
+      }
+    } catch (err: any) {
+      const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
+      res.status(500).json(message)
+    }
+  }
+}
+
 module.exports = {
   auth,
+  createAccount,
 }
