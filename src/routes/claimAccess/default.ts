@@ -1,4 +1,5 @@
 import ClaimAccess from '../../models/claimAccess'
+import Students from '../../models/students'
 import {
   UNKNOWN_ERROR_OCCURRED,
   REQUIRED_VALUE_EMPTY,
@@ -43,18 +44,22 @@ const getAllClaimAccess = async (req, res) => {
 }
 
 const addClaimAccess = async (req, res) => {
-  const { studentId, schoolId, accessClaimedAt } = req.body
+  const { studentId, schoolId, accessClaimedAt, lrn } = req.body
 
-  if (studentId && accessClaimedBy) {
-    const newClaimAccess = new ClaimAccess({
-      studentId,
-      schoolId,
-      accessClaimedAt,
-    })
-
+  if (studentId || lrn) {
     try {
+      const getExistingLrn = await Students.findOne({
+        lrn,
+        deletedAt: { $exists: false },
+      })
+      const newClaimAccess = new ClaimAccess({
+        studentId: getExistingLrn._id,
+        lrn,
+        schoolId: res.locals.user._id,
+        accessClaimedAt,
+      })
       const getExistingClaimAccess = await ClaimAccess.find({
-        $and: [{ studentId }, { schoolId }],
+        $and: [{ studentId, lrn }, { schoolId }],
         deletedAt: { $exists: false },
       })
       if (getExistingClaimAccess.length === 0) {

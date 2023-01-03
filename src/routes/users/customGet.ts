@@ -12,9 +12,9 @@ const verifyAuth = async (req, res, next) => {
     }
     // Verify the token
 
-    const { email, phoneNumber } = jwt.verify(token, keys.signKey)
+    const { email } = jwt.verify(token, keys.signKey)
     // Check if email exist in db
-    const user = await Users.findOne({ email, phoneNumber })
+    const user = await Users.findOne({ email })
     if (!user || (user && user.deletedAt)) {
       throw new Error('We cannot find your account in our system')
     }

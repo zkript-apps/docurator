@@ -43,6 +43,7 @@ const addForm138 = async (req, res) => {
     attendanceId,
     teacher,
     principal,
+    currentGradeLevel,
     promotedTo,
 
     certificateOfTranferDate,
@@ -73,6 +74,7 @@ const addForm138 = async (req, res) => {
       attendanceId,
       teacher,
       principal,
+      currentGradeLevel,
       promotedTo,
 
       certificateOfTranferDate,

@@ -8,7 +8,6 @@ const form138 = new Schema({
   },
   lrn: {
     type: String,
-    unique: true,
     minlength: 12,
     maxlength: 12,
   },
@@ -22,15 +21,11 @@ const form138 = new Schema({
       required: true,
     },
   },
-  narrativeReportFirstGrading: String,
-  narrativeReportSecondGrading: String,
-  narrativeReportThirdGrading: String,
-  narrativeReportFourthGrading: String,
 
-  parentsSignatureFirstGrading: String,
-  parentsSignatureSecondGrading: String,
-  parentsSignatureThirdGrading: String,
-  parentsSignatureFourthGrading: String,
+  isFirstGradingSigned: Boolean,
+  isSecondGradingSigned: Boolean,
+  isThirdGradingSigned: Boolean,
+  isFourthGradingSigned: Boolean,
 
   subjectRecords: [
     {
@@ -53,6 +48,10 @@ const form138 = new Schema({
     type: String,
     required: true,
   },
+  gradeLevel: {
+    type: String,
+    enum: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+  },
   promotedTo: {
     type: String,
     enum: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
@@ -61,8 +60,8 @@ const form138 = new Schema({
   certificateOfTranferTeacher: String,
   certificateOfTranferPrincipal: String,
 
-  CancellationOfEligibilityAdmittedIn: String,
-  CancellationOfEligibilityGrade: {
+  cancellationOfEligibilityAdmittedIn: String,
+  cancellationOfEligibilityGrade: {
     type: String,
     enum: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
   },

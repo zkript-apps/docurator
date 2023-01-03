@@ -2,6 +2,10 @@ import mongoose from 'mongoose'
 const { Schema } = mongoose
 
 const goodMoralCertificates = new Schema({
+  studentId: {
+    type: Schema.Types.ObjectId,
+    ref: 'Students',
+  },
   lastName: {
     type: String,
     required: true,
@@ -14,14 +18,15 @@ const goodMoralCertificates = new Schema({
     type: String,
     required: true,
   },
-  studentId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Students',
-  },
   lrn: {
     type: String,
     minlength: 12,
     maxlength: 12,
+  },
+  gradeLevel: {
+    type: String,
+    enum: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+    required: true,
   },
   schoolName: {
     type: String,

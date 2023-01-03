@@ -6,6 +6,7 @@ const claimAccess = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Students',
   },
+  lrn: String,
   schoolId: {
     type: Schema.Types.ObjectId,
     ref: 'Users',

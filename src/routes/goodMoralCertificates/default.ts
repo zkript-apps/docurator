@@ -1,4 +1,5 @@
 import GoodMoralCertificates from '../../models/goodMoralCertificates'
+import Students from '../../models/students'
 import {
   UNKNOWN_ERROR_OCCURRED,
   REQUIRED_VALUE_EMPTY,
@@ -38,34 +39,53 @@ const addGoodMoralCertificates = async (req, res) => {
   const {
     studentId,
     lrn,
+    lastName,
+    firstName,
+    middleName,
     schoolName,
     academicYear,
     signedBy,
     position,
     dateGiven,
+    gradeLevel,
   } = req.body
 
   if (
-    studentId &&
+    lastName &&
+    firstName &&
+    middleName &&
     schoolName &&
     academicYear &&
     signedBy &&
     position &&
-    dateGiven
+    dateGiven &&
+    gradeLevel
   ) {
     const newGoodMoralCertificate = new GoodMoralCertificates({
       studentId,
       lrn,
+      lastName,
+      firstName,
+      middleName,
       schoolName,
       academicYear,
       signedBy,
       position,
       dateGiven,
+      gradeLevel,
     })
 
     try {
-      const createGoodMoralCertificate = await newGoodMoralCertificate.save()
-      res.json(createGoodMoralCertificate)
+      const getExistingStudent = await Students.find({
+        lrn,
+        deletedAt: { $exists: false },
+      })
+      if (getExistingStudent.length !== 0) {
+        const createGoodMoralCertificate = await newGoodMoralCertificate.save()
+        res.json(createGoodMoralCertificate)
+      } else {
+        res.status(400).json('LRN does not exist')
+      }
     } catch (err: any) {
       const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
       res.status(500).json(message)

@@ -6,6 +6,12 @@ const birthCertificates = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Students',
   },
+  lrn: {
+    type: String,
+    unique: true,
+    minlength: 12,
+    maxlength: 12,
+  },
   placeOfBirthProvince: String,
   placeOfBirthMunicipality: String,
   placeOfBirthNameOfHospital: String,
@@ -32,7 +38,7 @@ const birthCertificates = new Schema({
   childsTypeOfBirthEtc: String,
   childsPosition: {
     type: String,
-    enum: ['1st', '2nd', '3rd', 'etc'],
+    enum: ['1st', '2nd', '3rd', 'etc', ''],
   },
   childPositionEtc: String,
   childsDateOfBirth: Date,
@@ -74,9 +80,9 @@ const birthCertificates = new Schema({
   birthAttendantsDateSigned: String,
   birthAttendantsTitle: {
     type: String,
-    enum: ['M.D.', 'Midwife', 'Nurse', 'others'],
+    enum: ['M.D.', 'Midwife', 'Nurse', 'other', ''],
   },
-  birthAttendantsotherTitle: String,
+  birthAttendantsOtherTitle: String,
 
   receivedByFullName: String,
   receivedByTitleOrPosition: String,
@@ -89,6 +95,8 @@ const birthCertificates = new Schema({
   weightAtBirthPound: Number,
   weightAtBirthOunce: Number,
 
+  isLegitimate: Boolean,
+
   parentsMarriageDate: Date,
   parentsMarriageMunicipality: String,
   parentsMarriageProvince: String,
@@ -97,9 +105,7 @@ const birthCertificates = new Schema({
   preparedByTitleOrPosition: String,
   datePrepared: Date,
 
-  birthReferenceNumberFirst: String,
-  birthReferenceNumberSecond: String,
-  birthReferenceNumberLast: String,
+  birthReferenceNumber: String,
   createdAt: {
     type: Date,
     default: Date.now,

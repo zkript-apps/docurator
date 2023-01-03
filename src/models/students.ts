@@ -32,6 +32,9 @@ const students = new Schema({
   },
   schoolName: String,
   dateOfBirth: Date,
+  placeOfBirthProvince: String,
+  placeOfBirthTown: String,
+  placeOfBirthBarangay: String,
   age: Number,
   gender: {
     type: String,
@@ -51,6 +54,7 @@ const students = new Schema({
   fathersName: String,
   fathersOccupation: String,
   guardiansName: String,
+  guardiansOccupation: String,
   guardiansMobileNumber: String,
   houseNumber: String,
   street: String,

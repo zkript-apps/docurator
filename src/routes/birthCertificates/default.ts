@@ -1,4 +1,5 @@
 import BirthCertificates from '../../models/birthCertificates'
+import Students from '../../models/students'
 import {
   UNKNOWN_ERROR_OCCURRED,
   RECORD_EXISTS,
@@ -34,7 +35,7 @@ const getAllBirthCertificates = async (req, res) => {
 
 const addBirthCertificate = async (req, res) => {
   const {
-    studentId,
+    lrn,
     placeOfBirthProvince,
     placeOfBirthMunicipality,
     placeOfBirthNameOfHospital,
@@ -52,9 +53,7 @@ const addBirthCertificate = async (req, res) => {
     childsMiddleName,
     childsSex,
     childsTypeOfBirth,
-    childsTypeOfBirthEtc,
     childsPosition,
-    childPositionEtc,
     childsDateOfBirth,
 
     fathersLastName,
@@ -93,7 +92,6 @@ const addBirthCertificate = async (req, res) => {
     birthAttendantsAddress,
     birthAttendantsDateSigned,
     birthAttendantsTitle,
-    birthAttendantsotherTitle,
 
     receivedByFullName,
     receivedByTitleOrPosition,
@@ -106,6 +104,8 @@ const addBirthCertificate = async (req, res) => {
     weightAtBirthPound,
     weightAtBirthOunce,
 
+    isLegitimate,
+
     parentsMarriageDate,
     parentsMarriageMunicipality,
     parentsMarriageProvince,
@@ -114,14 +114,12 @@ const addBirthCertificate = async (req, res) => {
     preparedByTitleOrPosition,
     datePrepared,
 
-    birthReferenceNumberFirst,
-    birthReferenceNumberSecond,
-    birthReferenceNumberLast,
+    birthReferenceNumber,
   } = req.body
 
-  if (studentId) {
+  if (lrn) {
     const newBirthCertificate = new BirthCertificates({
-      studentId,
+      lrn,
       placeOfBirthProvince,
       placeOfBirthMunicipality,
       placeOfBirthNameOfHospital,
@@ -139,9 +137,7 @@ const addBirthCertificate = async (req, res) => {
       childsMiddleName,
       childsSex,
       childsTypeOfBirth,
-      childsTypeOfBirthEtc,
       childsPosition,
-      childPositionEtc,
       childsDateOfBirth,
 
       fathersLastName,
@@ -180,7 +176,6 @@ const addBirthCertificate = async (req, res) => {
       birthAttendantsAddress,
       birthAttendantsDateSigned,
       birthAttendantsTitle,
-      birthAttendantsotherTitle,
 
       receivedByFullName,
       receivedByTitleOrPosition,
@@ -193,6 +188,8 @@ const addBirthCertificate = async (req, res) => {
       weightAtBirthPound,
       weightAtBirthOunce,
 
+      isLegitimate,
+
       parentsMarriageDate,
       parentsMarriageMunicipality,
       parentsMarriageProvince,
@@ -201,21 +198,27 @@ const addBirthCertificate = async (req, res) => {
       preparedByTitleOrPosition,
       datePrepared,
 
-      birthReferenceNumberFirst,
-      birthReferenceNumberSecond,
-      birthReferenceNumberLast,
+      birthReferenceNumber,
     })
 
     try {
       const getExistingBirthCertificate = await BirthCertificates.find({
-        studentId,
+        lrn,
         deletedAt: { $exists: false },
       })
-      if (getExistingBirthCertificate.length === 0) {
-        const createBirthCertificate = await newBirthCertificate.save()
-        res.json(createBirthCertificate)
+      const getExistingStudent = await Students.find({
+        lrn,
+        deletedAt: { $exists: false },
+      })
+      if (getExistingStudent.length !== 0) {
+        if (getExistingBirthCertificate.length === 0) {
+          const createBirthCertificate = await newBirthCertificate.save()
+          res.json(createBirthCertificate)
+        } else {
+          res.status(400).json(RECORD_EXISTS)
+        }
       } else {
-        res.status(400).json(RECORD_EXISTS)
+        res.status(400).json('LRN does not exist')
       }
     } catch (err: any) {
       const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED

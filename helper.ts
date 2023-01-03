@@ -9,8 +9,8 @@ const isUserLoggedIn = async (req, res, next) => {
     const bearer = bearerHeader.split(' ')
     const bearerToken = bearer[1]
     try {
-      const { email, phoneNumber } = jwt.verify(bearerToken, keys.signKey)
-      const user = await Users.findOne({ email, phoneNumber })
+      const { email } = jwt.verify(bearerToken, keys.signKey)
+      const user = await Users.findOne({ email })
       if (user && user.deletedAt) {
         throw new Error('We cannot find your account in our system')
       }
