@@ -5,13 +5,15 @@ const form137 = new Schema({
   studentId: {
     type: Schema.Types.ObjectId,
     ref: 'Students',
-    unique: true,
   },
   lrn: {
     type: String,
-    unique: true,
     minlength: 12,
     maxlength: 12,
+  },
+  educationLevel: {
+    type: String,
+    enum: ['Elementary', 'High School'],
   },
   createdAt: {
     type: Date,
