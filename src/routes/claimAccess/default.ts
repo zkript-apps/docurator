@@ -44,8 +44,7 @@ const getAllClaimAccess = async (req, res) => {
 }
 
 const addClaimAccess = async (req, res) => {
-  const { studentId, schoolId, accessClaimedAt, lrn } = req.body
-
+  const { studentId, schoolId, lrn } = req.body
   if (studentId || lrn) {
     try {
       const getExistingLrn = await Students.findOne({
@@ -55,18 +54,22 @@ const addClaimAccess = async (req, res) => {
       const newClaimAccess = new ClaimAccess({
         studentId: getExistingLrn._id,
         lrn,
-        schoolId: res.locals.user._id,
-        accessClaimedAt,
+        schoolId:
+          res.locals.user.userType === 'Admin' ? res.locals.user._id : schoolId,
       })
       const getExistingClaimAccess = await ClaimAccess.find({
-        $and: [{ studentId, lrn }, { schoolId }],
+        $and: [{ lrn }, { schoolId }],
         deletedAt: { $exists: false },
       })
       if (getExistingClaimAccess.length === 0) {
         const createClaimAccess = await newClaimAccess.save()
         res.json(createClaimAccess)
       } else {
-        res.status(400).json('Student record already claimed')
+        if (res.locals.user.userType === 'Admin') {
+          res.status(400).json("You already have access to this student's data")
+        } else {
+          res.status(400).json('Already sent')
+        }
       }
     } catch (err: any) {
       const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED

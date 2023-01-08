@@ -91,7 +91,7 @@ const createForm138WithAttendance = async (req, res) => {
           //create days of school
           const newDaysOfSchool = new DaysOfSchool({
             lrn,
-            attendanceId: createAttendance._id.toString(),
+            attendanceId: createAttendance?._id?.toString(),
             daysOfSchoolJune,
             daysOfSchoolJuly,
             daysOfSchoolAugust,
@@ -107,7 +107,7 @@ const createForm138WithAttendance = async (req, res) => {
           })
           const newDaysPresent = new DaysPresent({
             lrn,
-            attendanceId: createAttendance._id.toString(),
+            attendanceId: createAttendance?._id?.toString(),
             daysPresentJune,
             daysPresentJuly,
             daysPresentAugust,
@@ -129,14 +129,14 @@ const createForm138WithAttendance = async (req, res) => {
             const getExistingDaysOfSchool = await DaysOfSchool.find({
               $and: [
                 { lrn },
-                { attendanceId: createAttendance._id.toString() },
+                { attendanceId: createAttendance?._id?.toString() },
               ],
               deletedAt: { $exists: false },
             })
             const getExistingDaysPresent = await DaysPresent.find({
               $and: [
                 { lrn },
-                { attendanceId: createAttendance._id.toString() },
+                { attendanceId: createAttendance?._id?.toString() },
               ],
               deletedAt: { $exists: false },
             })
@@ -159,7 +159,7 @@ const createForm138WithAttendance = async (req, res) => {
                 isFourthGradingSigned,
 
                 subjectRecords,
-                attendanceId: createAttendance._id.toString(),
+                attendanceId: createAttendance?._id?.toString(),
                 teacher,
                 principal,
                 gradeLevel,

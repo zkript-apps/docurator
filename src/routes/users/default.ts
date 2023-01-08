@@ -7,6 +7,7 @@ import {
 import CryptoJS from 'crypto-js'
 import { keys } from '../../config/keys'
 import isEmpty from 'lodash/isEmpty'
+import Schools from '../../models/schools'
 
 const getAllUsers = async (req, res) => {
   try {
@@ -92,13 +93,20 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
   try {
-    const getUser = await Users.find({
+    const getUser = await Users.findOne({
       _id: req.params.id,
       deletedAt: {
         $exists: false,
       },
     })
-    if (getUser.length > 0) {
+    if (getUser) {
+      if (getUser.userType === 'Admin') {
+        await Schools.findByIdAndUpdate(getUser?.schoolId, {
+          $set: {
+            deletedAt: Date.now(),
+          },
+        })
+      }
       const deleteUser = await Users.findByIdAndUpdate(req.params.id, {
         $set: {
           deletedAt: Date.now(),

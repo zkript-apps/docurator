@@ -3,16 +3,16 @@ import { UNKNOWN_ERROR_OCCURRED } from '../../utils/constants'
 import { isEmpty } from 'lodash'
 
 const claimStudent = async (req, res, next) => {
-  const getStudent = await Students.find({
-    _id: req.params.id,
+  const getStudent = await Students.findOne({
+    lrn: req.body.lrn,
     deletedAt: { $exists: true },
   })
   const getClaimedStudent = await Students.find({
-    _id: req.params.id,
+    lrn: req.body.lrn,
     userStudentId: { $exists: true },
   })
-  const userStudentId = req.body.userStudentId
-  if (getStudent.length === 0) {
+  const userStudentId = getStudent._id
+  if (!getStudent) {
     if (getClaimedStudent.length === 0) {
       if (!isEmpty(userStudentId)) {
         try {

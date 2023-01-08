@@ -1,4 +1,6 @@
 import Students from '../../models/students'
+import ClaimAccess from '../../models/claimAccess'
+
 import {
   UNKNOWN_ERROR_OCCURRED,
   LRN_EXISTS,
@@ -33,10 +35,15 @@ const getAllStudents = async (req, res) => {
 
 const addStudent = async (req, res) => {
   const {
+    userId,
     lrn,
     statusOfApplicant,
     schoolName,
     dateOfBirth,
+    placeOfBirthProvince,
+    placeOfBirthTown,
+    placeOfBirthBarangay,
+    age,
     gender,
     civilStatus,
     phoneNumber,
@@ -46,20 +53,27 @@ const addStudent = async (req, res) => {
     fathersName,
     fathersOccupation,
     guardiansName,
-    guardiansMobileNumber,
+    guardiansPhoneNumber,
+    guardiansOccupation,
     houseNumber,
     street,
     barangay,
-    municipality,
+    town,
     province,
+    zipCode,
   } = req.body
 
   if (lrn && statusOfApplicant && schoolName && phoneNumber) {
     const newStudent = new Students({
+      userId,
       lrn,
       statusOfApplicant,
       schoolName,
       dateOfBirth,
+      placeOfBirthProvince,
+      placeOfBirthTown,
+      placeOfBirthBarangay,
+      age,
       gender,
       civilStatus,
       phoneNumber,
@@ -69,12 +83,19 @@ const addStudent = async (req, res) => {
       fathersName,
       fathersOccupation,
       guardiansName,
-      guardiansMobileNumber,
+      guardiansPhoneNumber,
+      guardiansOccupation,
       houseNumber,
       street,
       barangay,
-      municipality,
+      town,
       province,
+      zipCode,
+    })
+
+    const newClaimAccess = new ClaimAccess({
+      lrn,
+      schoolId: res.locals.user._id,
     })
 
     try {
@@ -84,7 +105,11 @@ const addStudent = async (req, res) => {
       })
       if (getExistingStudent.length === 0) {
         const createStudent = await newStudent.save()
-        res.json(createStudent)
+        const createClaimAccess = await newClaimAccess.save()
+        res.json({
+          createStudent: createStudent,
+          createClaimAccess: createClaimAccess,
+        })
       } else {
         res.status(400).json(LRN_EXISTS)
       }

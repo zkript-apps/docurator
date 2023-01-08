@@ -24,6 +24,9 @@ const auth = async (req, res, next) => {
       if (user && user.blockedAt) {
         throw new Error('Account was prohibited to login due to violations')
       }
+      if (user && user.isVerified === false) {
+        throw new Error('Your account is not yet verified')
+      }
       const encryptPassword = CryptoJS.AES.decrypt(
         user.password,
         keys.encryptKey
@@ -118,7 +121,7 @@ const createAccount = async (req, res) => {
             uuidKey
           )
           const encryptPrivateKey = CryptoJS.AES.encrypt(
-            createSchools._id.toString(),
+            createSchools?._id.toString(),
             uuidKey
           )
           const newUser = new Users({
@@ -128,10 +131,11 @@ const createAccount = async (req, res) => {
             firstName,
             lastName,
             userType,
-            schoolId: createSchools._id.toString(),
+            schoolId: createSchools?._id.toString(),
             uuid: uuidKey,
             publicKey: 'pub_' + encryptPublicKey,
             privateKey: 'pri_' + encryptPrivateKey,
+            isVerified: false,
           })
           try {
             const getExistingUser = await Users.find({
@@ -167,6 +171,7 @@ const createAccount = async (req, res) => {
       firstName,
       lastName,
       userType,
+      isVerified: true,
     })
     try {
       const getExistingUser = await Users.find({

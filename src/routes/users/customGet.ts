@@ -36,6 +36,34 @@ const verifyAuth = async (req, res, next) => {
   }
 }
 
+const getUnverifiedAccounts = async (req, res) => {
+  try {
+    const unverifiedAccountsCounts = await Users.find({
+      deletedAt: { $exists: false },
+      isVerified: false,
+    }).countDocuments()
+    const getAllUnverifiedAccounts = await Users.find({
+      deletedAt: { $exists: false },
+      isVerified: false,
+    })
+      .sort({ createdAt: -1 })
+      .populate([
+        {
+          path: 'schoolId',
+          model: 'Schools',
+        },
+      ])
+    res.json({
+      items: getAllUnverifiedAccounts,
+      count: unverifiedAccountsCounts,
+    })
+  } catch (err: any) {
+    const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
+    res.status(500).json(message)
+  }
+}
+
 module.exports = {
   verifyAuth,
+  getUnverifiedAccounts,
 }
