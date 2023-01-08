@@ -8,7 +8,7 @@ import {
 } from '../../utils/constants'
 import isEmpty from 'lodash/isEmpty'
 
-const getAllClaimAccess = async (req, res) => {
+const getClaimAccess = async (req, res) => {
   if (res.locals.user) {
     try {
       const claimAccessCounts = await ClaimAccess.find({
@@ -138,7 +138,7 @@ const deleteClaimAccess = async (req, res) => {
 }
 
 module.exports = {
-  getAllClaimAccess,
+  getClaimAccess,
   addClaimAccess,
   updateClaimAccess,
   deleteClaimAccess,

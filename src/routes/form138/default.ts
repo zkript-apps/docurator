@@ -7,17 +7,37 @@ import {
 import isEmpty from 'lodash/isEmpty'
 
 const getAllForm138 = async (req, res) => {
+  console.log(res.locals.user)
   try {
-    const form138Counts = await Form138.find({
-      deletedAt: { $exists: false },
-    }).countDocuments()
-    const getAllForm138 = await Form138.find({
-      deletedAt: { $exists: false },
-    }).sort({ createdAt: -1 })
-    res.json({
-      items: getAllForm138,
-      count: form138Counts,
-    })
+    if (res.locals.user.userType === 'Student') {
+      const form138CountsStudent = await Form138.find({
+        studentId: res.locals.user._id,
+        deletedAt: { $exists: false },
+      }).countDocuments()
+      const getAllForm138Student = await Form138.find({
+        studentId: res.locals.user._id,
+        deletedAt: { $exists: false },
+      }).sort({ createdAt: -1 })
+      res.json({
+        items: getAllForm138Student,
+        count: form138CountsStudent,
+      })
+    }
+    if (
+      res.locals.user.userType === 'Admin' ||
+      res.locals.user.userType === 'Super Admin'
+    ) {
+      const form138Counts = await Form138.find({
+        deletedAt: { $exists: false },
+      }).countDocuments()
+      const getAllForm138 = await Form138.find({
+        deletedAt: { $exists: false },
+      }).sort({ createdAt: -1 })
+      res.json({
+        items: getAllForm138,
+        count: form138Counts,
+      })
+    }
   } catch (err: any) {
     const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
     res.status(500).json(message)
