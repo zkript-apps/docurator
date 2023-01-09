@@ -1,6 +1,6 @@
 import Students from '../../models/students'
 import ClaimAccess from '../../models/claimAccess'
-
+import Users from '../../models/users'
 import {
   UNKNOWN_ERROR_OCCURRED,
   LRN_EXISTS,
@@ -93,11 +93,6 @@ const addStudent = async (req, res) => {
       zipCode,
     })
 
-    const newClaimAccess = new ClaimAccess({
-      lrn,
-      schoolId: res.locals.user._id,
-    })
-
     try {
       const getExistingStudent = await Students.find({
         $or: [{ lrn }, { email }],
@@ -105,6 +100,15 @@ const addStudent = async (req, res) => {
       })
       if (getExistingStudent.length === 0) {
         const createStudent = await newStudent.save()
+        const getExistingLrn = await Users.findOne({
+          phoneNumber,
+          deletedAt: { $exists: false },
+        })
+        const newClaimAccess = new ClaimAccess({
+          lrn,
+          schoolId: res.locals.user._id,
+          studentId: createStudent._id,
+        })
         const createClaimAccess = await newClaimAccess.save()
         res.json({
           createStudent: createStudent,

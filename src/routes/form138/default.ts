@@ -7,7 +7,6 @@ import {
 import isEmpty from 'lodash/isEmpty'
 
 const getAllForm138 = async (req, res) => {
-  console.log(res.locals.user)
   try {
     if (res.locals.user.userType === 'Student') {
       const form138CountsStudent = await Form138.find({

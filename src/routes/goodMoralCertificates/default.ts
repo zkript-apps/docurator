@@ -37,7 +37,6 @@ const getAllGoodMoralCertificates = async (req, res) => {
 
 const addGoodMoralCertificates = async (req, res) => {
   const {
-    studentId,
     lrn,
     lastName,
     firstName,
@@ -61,8 +60,12 @@ const addGoodMoralCertificates = async (req, res) => {
     dateGiven &&
     gradeLevel
   ) {
+    const getExistingStudent = await Students.findOne({
+      lrn,
+      deletedAt: { $exists: false },
+    })
     const newGoodMoralCertificate = new GoodMoralCertificates({
-      studentId,
+      studentId: getExistingStudent._id,
       lrn,
       lastName,
       firstName,
@@ -76,10 +79,6 @@ const addGoodMoralCertificates = async (req, res) => {
     })
 
     try {
-      const getExistingStudent = await Students.find({
-        lrn,
-        deletedAt: { $exists: false },
-      })
       if (getExistingStudent.length !== 0) {
         const createGoodMoralCertificate = await newGoodMoralCertificate.save()
         res.json(createGoodMoralCertificate)

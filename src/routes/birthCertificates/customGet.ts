@@ -5,12 +5,12 @@ const getAllBirthCertificatesWithAccess = async (req, res) => {
   // get all student id of all students that the school claimed string[]
   if (res.locals.user) {
     try {
-      const getAllForm137WithAccess = await ClaimAccess.find({
+      const getAllBirthCertificatesWithAccess = await ClaimAccess.find({
         schoolId: res.locals.user._id,
       }).sort({
         createdAt: -1,
       })
-      const studentIds = getAllForm137WithAccess.map((id) =>
+      const studentIds = getAllBirthCertificatesWithAccess.map((id) =>
         id?.studentId?.toString()
       )
 

@@ -107,7 +107,6 @@ const createAccount = async (req, res) => {
           ],
           deletedAt: { $exists: false },
         })
-        console.log(getExistingSchools.length)
         if (getExistingSchools.length === 0) {
           const createSchools = await newSchools.save()
           //create user account

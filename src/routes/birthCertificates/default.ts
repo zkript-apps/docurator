@@ -118,8 +118,13 @@ const addBirthCertificate = async (req, res) => {
   } = req.body
 
   if (lrn) {
+    const getExistingStudent = await Students.findOne({
+      lrn,
+      deletedAt: { $exists: false },
+    })
     const newBirthCertificate = new BirthCertificates({
       lrn,
+      studentId: getExistingStudent._id,
       placeOfBirthProvince,
       placeOfBirthMunicipality,
       placeOfBirthNameOfHospital,
@@ -203,10 +208,6 @@ const addBirthCertificate = async (req, res) => {
 
     try {
       const getExistingBirthCertificate = await BirthCertificates.find({
-        lrn,
-        deletedAt: { $exists: false },
-      })
-      const getExistingStudent = await Students.find({
         lrn,
         deletedAt: { $exists: false },
       })

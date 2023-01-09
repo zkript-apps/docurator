@@ -55,7 +55,9 @@ const addClaimAccess = async (req, res) => {
         studentId: getExistingLrn._id,
         lrn,
         schoolId:
-          res.locals.user.userType === 'Admin' ? res.locals.user._id : schoolId,
+          res.locals.user.userType === 'Admin'
+            ? res.locals.user.schoolId
+            : schoolId,
       })
       const getExistingClaimAccess = await ClaimAccess.find({
         $and: [{ lrn }, { schoolId }],
