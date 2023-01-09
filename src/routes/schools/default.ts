@@ -10,9 +10,11 @@ const getAllSchools = async (req, res) => {
   try {
     const schoolsCounts = await Schools.find({
       deletedAt: { $exists: false },
+      isVerified: true,
     }).countDocuments()
     const getAllSchools = await Schools.find({
       deletedAt: { $exists: false },
+      isVerified: true,
     }).sort({ createdAt: -1 })
     res.json({
       items: getAllSchools,

@@ -5,7 +5,6 @@ const subjectRecords = new Schema({
   studentId: {
     type: Schema.Types.ObjectId,
     ref: 'Students',
-    required: true,
   },
   lrn: {
     type: String,

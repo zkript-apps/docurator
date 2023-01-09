@@ -11,7 +11,7 @@ const getAllForm137WithAccess = async (req, res) => {
         createdAt: -1,
       })
       const studentIds = getAllForm137WithAccess.map((id) =>
-        id.studentId.toString()
+        id?.studentId?.toString()
       )
 
       // get all students form137 that exist in the above result using $in query

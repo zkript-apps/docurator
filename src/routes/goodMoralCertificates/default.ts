@@ -1,4 +1,5 @@
 import GoodMoralCertificates from '../../models/goodMoralCertificates'
+import Students from '../../models/students'
 import {
   UNKNOWN_ERROR_OCCURRED,
   REQUIRED_VALUE_EMPTY,
@@ -36,36 +37,54 @@ const getAllGoodMoralCertificates = async (req, res) => {
 
 const addGoodMoralCertificates = async (req, res) => {
   const {
-    studentId,
     lrn,
+    lastName,
+    firstName,
+    middleName,
     schoolName,
     academicYear,
     signedBy,
     position,
     dateGiven,
+    gradeLevel,
   } = req.body
 
   if (
-    studentId &&
+    lastName &&
+    firstName &&
+    middleName &&
     schoolName &&
     academicYear &&
     signedBy &&
     position &&
-    dateGiven
+    dateGiven &&
+    gradeLevel
   ) {
-    const newGoodMoralCertificate = new GoodMoralCertificates({
-      studentId,
+    const getExistingStudent = await Students.findOne({
       lrn,
+      deletedAt: { $exists: false },
+    })
+    const newGoodMoralCertificate = new GoodMoralCertificates({
+      studentId: getExistingStudent._id,
+      lrn,
+      lastName,
+      firstName,
+      middleName,
       schoolName,
       academicYear,
       signedBy,
       position,
       dateGiven,
+      gradeLevel,
     })
 
     try {
-      const createGoodMoralCertificate = await newGoodMoralCertificate.save()
-      res.json(createGoodMoralCertificate)
+      if (getExistingStudent.length !== 0) {
+        const createGoodMoralCertificate = await newGoodMoralCertificate.save()
+        res.json(createGoodMoralCertificate)
+      } else {
+        res.status(400).json('LRN does not exist')
+      }
     } catch (err: any) {
       const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
       res.status(500).json(message)

@@ -1,25 +1,22 @@
 import Students from '../../models/students'
 import { UNKNOWN_ERROR_OCCURRED } from '../../utils/constants'
-import { isEmpty } from 'lodash'
 
 const claimStudent = async (req, res, next) => {
-  const getStudent = await Students.find({
-    _id: req.params.id,
-    deletedAt: { $exists: true },
+  const getStudent = await Students.findOne({
+    lrn: req.params.lrn,
+    deletedAt: { $exists: false },
   })
-  const getClaimedStudent = await Students.find({
-    _id: req.params.id,
-    userStudentId: { $exists: true },
+  const getClaimedStudents = await Students.find({
+    $and: [{ lrn: req.params.lrn }, { userId: { $ne: null } }],
   })
-  const userStudentId = req.body.userStudentId
-  if (getStudent.length === 0) {
-    if (getClaimedStudent.length === 0) {
-      if (!isEmpty(userStudentId)) {
+  if (getStudent) {
+    if (getClaimedStudents.length === 0) {
+      if (req.params.lrn) {
         try {
           const updateStudent = await Students.findByIdAndUpdate(
-            req.params.id,
+            getStudent?._id.toString(),
             {
-              userStudentId,
+              userId: res?.locals?.user?._id,
               studentClaimedAt: Date.now(),
               updatedAt: Date.now(),
             },
@@ -31,7 +28,7 @@ const claimStudent = async (req, res, next) => {
           res.status(500).json(message)
         }
       } else {
-        res.status(500).json('Enter student ID')
+        res.status(500).json('Enter your LRN')
       }
     } else {
       res.status(500).json('Student record is already claimed')

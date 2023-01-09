@@ -1,4 +1,5 @@
 import SubjectRecords from '../../models/subjectRecords'
+import Students from '../../models/students'
 import {
   UNKNOWN_ERROR_OCCURRED,
   REQUIRED_VALUE_EMPTY,
@@ -30,6 +31,7 @@ const getAllSubjectRecords = async (req, res) => {
 const addSubjectRecords = async (req, res) => {
   const {
     studentId,
+    lrn,
     subjectName,
     subjectCode,
     firstGrading,
@@ -42,9 +44,10 @@ const addSubjectRecords = async (req, res) => {
     academicYear,
   } = req.body
 
-  if (studentId && subjectName && gradeLevel) {
+  if (subjectName && gradeLevel && lrn) {
     const newSubjectRecord = new SubjectRecords({
       studentId,
+      lrn,
       subjectName,
       subjectCode,
       firstGrading,
@@ -62,11 +65,19 @@ const addSubjectRecords = async (req, res) => {
         $and: [{ subjectName }, { gradeLevel }],
         deletedAt: { $exists: false },
       })
-      if (getExistingSubjectRecords.length === 0) {
-        const createSubjectRecord = await newSubjectRecord.save()
-        res.json(createSubjectRecord)
+      const getExistingStudent = await Students.find({
+        lrn,
+        deletedAt: { $exists: false },
+      })
+      if (getExistingStudent.length !== 0) {
+        if (getExistingSubjectRecords.length === 0) {
+          const createSubjectRecord = await newSubjectRecord.save()
+          res.json(createSubjectRecord)
+        } else {
+          res.status(400).json('Subject record already exists')
+        }
       } else {
-        res.status(400).json('Subject record already exists')
+        res.status(400).json('LRN does not exist')
       }
     } catch (err: any) {
       const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED

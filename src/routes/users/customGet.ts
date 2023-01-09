@@ -12,9 +12,9 @@ const verifyAuth = async (req, res, next) => {
     }
     // Verify the token
 
-    const { email, phoneNumber } = jwt.verify(token, keys.signKey)
+    const { email } = jwt.verify(token, keys.signKey)
     // Check if email exist in db
-    const user = await Users.findOne({ email, phoneNumber })
+    const user = await Users.findOne({ email })
     if (!user || (user && user.deletedAt)) {
       throw new Error('We cannot find your account in our system')
     }
@@ -36,6 +36,34 @@ const verifyAuth = async (req, res, next) => {
   }
 }
 
+const getUnverifiedAccounts = async (req, res) => {
+  try {
+    const unverifiedAccountsCounts = await Users.find({
+      deletedAt: { $exists: false },
+      isVerified: false,
+    }).countDocuments()
+    const getAllUnverifiedAccounts = await Users.find({
+      deletedAt: { $exists: false },
+      isVerified: false,
+    })
+      .sort({ createdAt: -1 })
+      .populate([
+        {
+          path: 'schoolId',
+          model: 'Schools',
+        },
+      ])
+    res.json({
+      items: getAllUnverifiedAccounts,
+      count: unverifiedAccountsCounts,
+    })
+  } catch (err: any) {
+    const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
+    res.status(500).json(message)
+  }
+}
+
 module.exports = {
   verifyAuth,
+  getUnverifiedAccounts,
 }

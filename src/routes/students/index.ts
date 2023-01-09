@@ -7,6 +7,7 @@ const {
   deleteStudent,
 } = require('./default')
 import { claimStudent, claimAccess } from './customPatch'
+import { getStudent } from './customGet'
 import { isUserLoggedIn } from '../../../helper'
 
 router.get('/', isUserLoggedIn, getAllStudents)
@@ -14,7 +15,10 @@ router.post('/', isUserLoggedIn, addStudent)
 router.patch('/:id', isUserLoggedIn, updateStudent)
 router.delete('/:id', isUserLoggedIn, deleteStudent)
 
+//custom get
+router.get('/information', isUserLoggedIn, getStudent)
+
 //custom patch
-router.patch('/claim-record/:id', isUserLoggedIn, claimStudent)
+router.patch('/claim-record/:lrn', isUserLoggedIn, claimStudent)
 
 module.exports = router

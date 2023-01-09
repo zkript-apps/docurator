@@ -1,4 +1,5 @@
 import Form137 from '../../models/form137'
+import Students from '../../models/students'
 import {
   UNKNOWN_ERROR_OCCURRED,
   RECORD_EXISTS,
@@ -12,6 +13,7 @@ const getAllForm137 = async (req, res) => {
     const form137Counts = await Form137.find({
       deletedAt: { $exists: false },
     }).countDocuments()
+
     const getAllForm137 = await Form137.find({
       deletedAt: { $exists: false },
     })
@@ -33,24 +35,32 @@ const getAllForm137 = async (req, res) => {
 }
 
 const addForm137 = async (req, res) => {
-  const { studentId, lrn } = req.body
+  const { lrn, educationLevel } = req.body
 
   if (lrn) {
-    const newForm137 = new Form137({
-      studentId,
+    const getExistingLrn = await Students.findOne({
       lrn,
+      deletedAt: { $exists: false },
     })
-
     try {
       const getExistingForm137 = await Form137.find({
-        $or: [{ studentId }, { lrn }],
+        $and: [{ lrn }, { educationLevel }],
         deletedAt: { $exists: false },
       })
-      if (getExistingForm137.length === 0) {
-        const createStudent = await newForm137.save()
-        res.json(createStudent)
+      if (getExistingLrn) {
+        const newForm137 = new Form137({
+          studentId: getExistingLrn._id,
+          lrn,
+          educationLevel,
+        })
+        if (getExistingForm137.length === 0) {
+          const createStudent = await newForm137.save()
+          res.json(createStudent)
+        } else {
+          res.status(400).json(RECORD_EXISTS)
+        }
       } else {
-        res.status(400).json(RECORD_EXISTS)
+        res.status(400).json(`Student with the LRN ${lrn} does not exist`)
       }
     } catch (err: any) {
       const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED

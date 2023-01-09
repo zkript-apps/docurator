@@ -5,12 +5,7 @@ const students = new Schema({
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'Users',
-    unique: true,
-  },
-  userStudentId: {
-    type: Schema.Types.ObjectId,
-    ref: 'Users',
-    unique: true,
+    default: null,
   },
   studentClaimedAt: Date,
   claimedBy: {
@@ -32,6 +27,9 @@ const students = new Schema({
   },
   schoolName: String,
   dateOfBirth: Date,
+  placeOfBirthProvince: String,
+  placeOfBirthTown: String,
+  placeOfBirthBarangay: String,
   age: Number,
   gender: {
     type: String,
@@ -51,13 +49,14 @@ const students = new Schema({
   fathersName: String,
   fathersOccupation: String,
   guardiansName: String,
-  guardiansMobileNumber: String,
+  guardiansOccupation: String,
+  guardiansPhoneNumber: String,
   houseNumber: String,
   street: String,
   barangay: String,
-  municipality: String,
+  town: String,
   province: String,
-  zipCode: Number,
+  zipCode: String,
   createdAt: {
     type: Date,
     default: Date.now,
