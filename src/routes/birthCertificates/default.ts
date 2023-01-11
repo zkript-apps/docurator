@@ -116,7 +116,6 @@ const addBirthCertificate = async (req, res) => {
 
     birthReferenceNumber,
   } = req.body
-
   if (lrn) {
     const getExistingStudent = await Students.findOne({
       lrn,

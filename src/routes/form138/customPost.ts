@@ -179,7 +179,6 @@ const createForm138WithAttendance = async (req, res) => {
               })
               if (getExistingForm138.length === 0) {
                 const createForm138 = await newForm138.save()
-                res.json(createForm138)
               } else {
                 res.status(400).json('Form 138/Report Card already exists')
               }
@@ -198,7 +197,6 @@ const createForm138WithAttendance = async (req, res) => {
               })
               if (getEligibility.length === 0) {
                 const createEligibility = await newEligibility.save()
-                res.json(createEligibility)
               } else {
                 res.status(400).json(RECORD_EXISTS)
               }

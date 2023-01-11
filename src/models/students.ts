@@ -20,6 +20,15 @@ const students = new Schema({
     maxlength: 12,
     required: true,
   },
+  lastName: {
+    type: String,
+    required: true,
+  },
+  firstName: {
+    type: String,
+    required: true,
+  },
+  middleName: String,
   statusOfApplicant: {
     type: String,
     enum: ['Freshmen', 'Transferee', 'Returnee', 'Shifter', 'Continuer'],
@@ -33,11 +42,11 @@ const students = new Schema({
   age: Number,
   gender: {
     type: String,
-    enum: ['Male', 'Female', 'Prefer not to say'],
+    enum: ['Male', 'Female', 'Prefer not to say', null],
   },
   civilStatus: {
     type: String,
-    enum: ['Single', 'Married', 'Divorced', 'Widowed'],
+    enum: ['Single', 'Married', 'Divorced', 'Widowed', null],
   },
   phoneNumber: {
     type: String,

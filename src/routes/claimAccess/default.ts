@@ -12,11 +12,11 @@ const getClaimAccess = async (req, res) => {
   if (res.locals.user) {
     try {
       const claimAccessCounts = await ClaimAccess.find({
-        schoolId: res.locals.user._id,
+        schoolId: res.locals.user.schoolId,
         deletedAt: { $exists: false },
       }).countDocuments()
       const getAllClaimAccess = await ClaimAccess.find({
-        schoolId: res.locals.user._id,
+        schoolId: res.locals.user.schoolId,
         deletedAt: { $exists: false },
       })
         .sort({

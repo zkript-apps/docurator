@@ -6,15 +6,16 @@ const getAllForm138WithAccess = async (req, res) => {
   if (res.locals.user) {
     try {
       const getAllForm138WithAccess = await ClaimAccess.find({
-        schoolId: res.locals.user._id,
+        schoolId: res.locals.user.schoolId,
+        deletedAt: { $exists: false },
       }).sort({
         createdAt: -1,
       })
       const studentIds = getAllForm138WithAccess.map((id) =>
-        id.studentId.toString()
+        id?.studentId?.toString()
       )
 
-      // get all students form137 that exist in the above result using $in query
+      // get all students form138 that exist in the above result using $in query
       const form138Counts = await Form138.find({
         deletedAt: { $exists: false },
         studentId: { $in: studentIds },

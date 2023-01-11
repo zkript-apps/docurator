@@ -14,10 +14,7 @@ const goodMoralCertificates = new Schema({
     type: String,
     required: true,
   },
-  middleName: {
-    type: String,
-    required: true,
-  },
+  middleName: String,
   lrn: {
     type: String,
     minlength: 12,
