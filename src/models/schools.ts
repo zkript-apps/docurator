@@ -2,6 +2,7 @@ import mongoose from 'mongoose'
 const { Schema } = mongoose
 
 const schools = new Schema({
+  schoolId: String,
   schoolName: {
     type: String,
     required: true,
@@ -13,6 +14,14 @@ const schools = new Schema({
   schoolPhoneNumber: {
     type: String,
     required: true,
+  },
+  curricularOffers: {
+    type: String,
+    enum: ['Elementary', 'Secondary', 'Elementary to Secondary'],
+  },
+  schoolClassification: {
+    type: String,
+    enum: ['Private', 'Public'],
   },
   schoolStreet: String,
   schoolBarangay: String,
