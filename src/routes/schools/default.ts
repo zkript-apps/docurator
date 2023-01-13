@@ -28,9 +28,12 @@ const getAllSchools = async (req, res) => {
 
 const addSchools = async (req, res) => {
   const {
+    schoolId,
     schoolName,
     schoolEmail,
     schoolPhoneNumber,
+    curricularOffers,
+    schoolClassification,
     schoolStreet,
     schoolBarangay,
     schoolMunicipality,
@@ -40,9 +43,12 @@ const addSchools = async (req, res) => {
 
   if (schoolName && schoolEmail && schoolPhoneNumber) {
     const newSchools = new Schools({
+      schoolId,
       schoolName,
       schoolEmail,
       schoolPhoneNumber,
+      curricularOffers,
+      schoolClassification,
       schoolStreet,
       schoolBarangay,
       schoolMunicipality,

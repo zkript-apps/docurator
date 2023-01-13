@@ -1,4 +1,5 @@
 import Form138 from '../../models/form138'
+import Students from '../../models/students'
 import {
   UNKNOWN_ERROR_OCCURRED,
   REQUIRED_VALUE_EMPTY,
@@ -9,12 +10,16 @@ import isEmpty from 'lodash/isEmpty'
 const getAllForm138 = async (req, res) => {
   try {
     if (res.locals.user.userType === 'Student') {
+      const getStudentId = await Students.findOne({
+        userId: res.locals.user._id,
+        deletedAt: { $exists: false },
+      })
       const form138CountsStudent = await Form138.find({
-        studentId: res.locals.user._id,
+        studentId: getStudentId._id,
         deletedAt: { $exists: false },
       }).countDocuments()
       const getAllForm138Student = await Form138.find({
-        studentId: res.locals.user._id,
+        studentId: getStudentId._id,
         deletedAt: { $exists: false },
       }).sort({ createdAt: -1 })
       res.json({

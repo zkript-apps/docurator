@@ -12,11 +12,13 @@ const getClaimAccess = async (req, res) => {
   if (res.locals.user) {
     try {
       const claimAccessCounts = await ClaimAccess.find({
-        schoolId: res.locals.user._id,
+        isAccepted: true,
+        schoolId: res.locals.user.schoolId,
         deletedAt: { $exists: false },
       }).countDocuments()
       const getAllClaimAccess = await ClaimAccess.find({
-        schoolId: res.locals.user._id,
+        isAccepted: true,
+        schoolId: res.locals.user.schoolId,
         deletedAt: { $exists: false },
       })
         .sort({
@@ -58,6 +60,8 @@ const addClaimAccess = async (req, res) => {
           res.locals.user.userType === 'Admin'
             ? res.locals.user.schoolId
             : schoolId,
+        isConfirmed: res.locals.user.userType === 'Admin' ? true : false,
+        isSentByStudent: res.locals.user.userType === 'Admin' ? false : true,
       })
       const getExistingClaimAccess = await ClaimAccess.find({
         $and: [{ lrn }, { schoolId }],

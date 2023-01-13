@@ -6,7 +6,7 @@ const getAllGoodMoralCertificatesWithAccess = async (req, res) => {
   if (res.locals.user) {
     try {
       const getAllForm137WithAccess = await ClaimAccess.find({
-        schoolId: res.locals.user._id,
+        schoolId: res.locals.user.schoolId,
       }).sort({
         createdAt: -1,
       })

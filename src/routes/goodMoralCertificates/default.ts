@@ -52,7 +52,6 @@ const addGoodMoralCertificates = async (req, res) => {
   if (
     lastName &&
     firstName &&
-    middleName &&
     schoolName &&
     academicYear &&
     signedBy &&

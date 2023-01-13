@@ -8,7 +8,6 @@ const daysOfSchool = new Schema({
   },
   lrn: {
     type: String,
-    unique: true,
     minlength: 12,
     maxlength: 12,
   },

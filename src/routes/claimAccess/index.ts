@@ -6,7 +6,7 @@ const {
   updateClaimAccess,
   deleteClaimAccess,
 } = require('./default')
-import { getAllClaimAccess } from './customGet'
+import { getAllClaimAccess, getAllPendingClaimAccess } from './customGet'
 import { isUserLoggedIn } from '../../../helper'
 
 router.get('/', isUserLoggedIn, getClaimAccess)
@@ -16,5 +16,6 @@ router.delete('/:id', isUserLoggedIn, deleteClaimAccess)
 
 //custom get
 router.get('/all', isUserLoggedIn, getAllClaimAccess)
+router.get('/pending', isUserLoggedIn, getAllPendingClaimAccess)
 
 module.exports = router

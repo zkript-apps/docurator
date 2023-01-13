@@ -19,6 +19,8 @@ const claimAccess = new Schema({
     type: Date,
     default: Date.now,
   },
+  isAccepted: Boolean,
+  isSentByStudent: Boolean,
   updatedAt: Date,
   deletedAt: Date,
 })

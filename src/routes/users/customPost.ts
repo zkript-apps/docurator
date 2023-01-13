@@ -10,6 +10,8 @@ import { keys } from '../../config/keys'
 import CryptoJS from 'crypto-js'
 import jwt from 'jsonwebtoken'
 import { v4 as uuidv4 } from 'uuid'
+import sgMail from '@sendgrid/mail'
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 const auth = async (req, res, next) => {
   const { email, password, phoneNumber } = req.body
@@ -61,9 +63,12 @@ const auth = async (req, res, next) => {
 
 const createAccount = async (req, res) => {
   const {
+    schoolId,
     schoolName,
     schoolEmail,
     schoolPhoneNumber,
+    curricularOffers,
+    schoolClassification,
     schoolStreet,
     schoolBarangay,
     schoolMunicipality,
@@ -76,6 +81,7 @@ const createAccount = async (req, res) => {
     firstName,
     lastName,
     userType,
+    files,
   } = req.body
 
   if (userType === 'Admin') {
@@ -89,9 +95,12 @@ const createAccount = async (req, res) => {
       userType
     ) {
       const newSchools = new Schools({
+        schoolId,
         schoolName,
         schoolEmail,
         schoolPhoneNumber,
+        curricularOffers,
+        schoolClassification,
         schoolStreet,
         schoolBarangay,
         schoolMunicipality,
@@ -107,49 +116,76 @@ const createAccount = async (req, res) => {
           ],
           deletedAt: { $exists: false },
         })
+        const getExistingUser = await Users.find({
+          $or: [{ email }, { phoneNumber }],
+          deletedAt: { $exists: false },
+        })
         if (getExistingSchools.length === 0) {
-          const createSchools = await newSchools.save()
-          //create user account
-          const encryptPassword = CryptoJS.AES.encrypt(
-            password,
-            keys.encryptKey
-          )
-          const uuidKey = uuidv4()
-          const encryptPublicKey = CryptoJS.AES.encrypt(
-            createSchools.schoolName,
-            uuidKey
-          )
-          const encryptPrivateKey = CryptoJS.AES.encrypt(
-            createSchools?._id.toString(),
-            uuidKey
-          )
-          const newUser = new Users({
-            email,
-            phoneNumber,
-            password: encryptPassword,
-            firstName,
-            lastName,
-            userType,
-            schoolId: createSchools?._id.toString(),
-            uuid: uuidKey,
-            publicKey: 'pub_' + encryptPublicKey,
-            privateKey: 'pri_' + encryptPrivateKey,
-            isVerified: false,
-          })
-          try {
-            const getExistingUser = await Users.find({
-              $or: [{ email }, { phoneNumber }],
-              deletedAt: { $exists: false },
+          if (getExistingUser.length === 0) {
+            const createSchools = await newSchools.save()
+            //create user account
+            const encryptPassword = CryptoJS.AES.encrypt(
+              password,
+              keys.encryptKey
+            )
+            const uuidKey = uuidv4()
+            const encryptPublicKey = CryptoJS.AES.encrypt(
+              createSchools.schoolName,
+              uuidKey
+            )
+            const encryptPrivateKey = CryptoJS.AES.encrypt(
+              createSchools?._id.toString(),
+              uuidKey
+            )
+            const newUser = new Users({
+              email,
+              phoneNumber,
+              password: encryptPassword,
+              firstName,
+              lastName,
+              userType,
+              schoolId: createSchools?._id.toString(),
+              uuid: uuidKey,
+              publicKey: 'pub_' + encryptPublicKey,
+              privateKey: 'pri_' + encryptPrivateKey,
+              isVerified: false,
             })
-            if (getExistingUser.length === 0) {
-              const createUser = await newUser.save()
-              res.json(createUser)
-            } else {
-              res.status(400).json(EMAIL_PHONENUMBER_ALREADY_USED)
+            console.log(files)
+            try {
+              if (getExistingUser.length === 0) {
+                const createUser = await newUser.save()
+                //send email
+                // const fs = require('fs')
+                const sgMail = require('@sendgrid/mail')
+                sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+                const msg = {
+                  to: 'kyllevaron.madrigal@lspu.edu.ph', // Change to your recipient
+                  from: 'kyllevaron.madrigal@lspu.edu.ph', // Change to your verified sender
+                  subject: 'School Account Verification',
+                  text: `School Name: ${schoolName}\nSchool Email: ${schoolEmail}\nCurricular Offers: ${curricularOffers}\nSchool General Classification: ${schoolClassification}`,
+                  // attachments: [
+                  //   {
+                  //     content: Buffer.from(
+                  //       fs.readFileSync(`${files}`)
+                  //     ).toString('base64'),
+                  //     type: 'image/jpeg',
+                  //     disposition: 'attachment',
+                  //   },
+                  // ],
+                }
+                sgMail.send(msg).catch((err: any) => {
+                  throw new Error(err)
+                })
+                res.json(createUser)
+              } else {
+                res.status(400).json(EMAIL_PHONENUMBER_ALREADY_USED)
+              }
+            } catch (err: any) {
+              const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
+              res.status(500).json(message)
             }
-          } catch (err: any) {
-            const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
-            res.status(500).json(message)
+          } else {
+            res.status(400).json('User already exists')
           }
         } else {
           res.status(400).json(SCHOOL_ALREADY_EXISTS)

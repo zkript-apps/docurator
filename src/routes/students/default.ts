@@ -3,7 +3,7 @@ import ClaimAccess from '../../models/claimAccess'
 import Users from '../../models/users'
 import {
   UNKNOWN_ERROR_OCCURRED,
-  LRN_EXISTS,
+  LRN_EMAIL_EXISTS,
   REQUIRED_VALUE_EMPTY,
 } from '../../utils/constants'
 import isEmpty from 'lodash/isEmpty'
@@ -37,6 +37,9 @@ const addStudent = async (req, res) => {
   const {
     userId,
     lrn,
+    lastName,
+    firstName,
+    middleName,
     statusOfApplicant,
     schoolName,
     dateOfBirth,
@@ -63,10 +66,20 @@ const addStudent = async (req, res) => {
     zipCode,
   } = req.body
 
-  if (lrn && statusOfApplicant && schoolName && phoneNumber) {
+  if (
+    lastName &&
+    firstName &&
+    lrn &&
+    statusOfApplicant &&
+    schoolName &&
+    phoneNumber
+  ) {
     const newStudent = new Students({
       userId,
       lrn,
+      lastName,
+      firstName,
+      middleName,
       statusOfApplicant,
       schoolName,
       dateOfBirth,
@@ -98,15 +111,12 @@ const addStudent = async (req, res) => {
         $or: [{ lrn }, { email }],
         deletedAt: { $exists: false },
       })
+      console.log(getExistingStudent)
       if (getExistingStudent.length === 0) {
         const createStudent = await newStudent.save()
-        const getExistingLrn = await Users.findOne({
-          phoneNumber,
-          deletedAt: { $exists: false },
-        })
         const newClaimAccess = new ClaimAccess({
           lrn,
-          schoolId: res.locals.user._id,
+          schoolId: res.locals.user.schoolId,
           studentId: createStudent._id,
         })
         const createClaimAccess = await newClaimAccess.save()
@@ -115,7 +125,7 @@ const addStudent = async (req, res) => {
           createClaimAccess: createClaimAccess,
         })
       } else {
-        res.status(400).json(LRN_EXISTS)
+        res.status(400).json(LRN_EMAIL_EXISTS)
       }
     } catch (err: any) {
       const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
