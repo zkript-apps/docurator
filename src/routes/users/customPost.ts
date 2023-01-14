@@ -69,11 +69,6 @@ const createAccount = async (req, res) => {
     schoolPhoneNumber,
     curricularOffers,
     schoolClassification,
-    schoolStreet,
-    schoolBarangay,
-    schoolMunicipality,
-    schoolProvince,
-    schoolZipCode,
     //user req body
     email,
     password,
@@ -101,11 +96,6 @@ const createAccount = async (req, res) => {
         schoolPhoneNumber,
         curricularOffers,
         schoolClassification,
-        schoolStreet,
-        schoolBarangay,
-        schoolMunicipality,
-        schoolProvince,
-        schoolZipCode,
       })
       try {
         const getExistingSchools = await Schools.find({
@@ -159,19 +149,10 @@ const createAccount = async (req, res) => {
                 const sgMail = require('@sendgrid/mail')
                 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
                 const msg = {
-                  to: 'kyllevaron.madrigal@lspu.edu.ph', // Change to your recipient
+                  to: `${email}`, // Change to your recipient
                   from: 'kyllevaron.madrigal@lspu.edu.ph', // Change to your verified sender
                   subject: 'School Account Verification',
-                  text: `School Name: ${schoolName}\nSchool Email: ${schoolEmail}\nCurricular Offers: ${curricularOffers}\nSchool General Classification: ${schoolClassification}`,
-                  // attachments: [
-                  //   {
-                  //     content: Buffer.from(
-                  //       fs.readFileSync(`${files}`)
-                  //     ).toString('base64'),
-                  //     type: 'image/jpeg',
-                  //     disposition: 'attachment',
-                  //   },
-                  // ],
+                  text: `Good Day! I am Kylle Varon Madrigal from DoCurator,\nIn order to get your account verified, I would like to ask you to send a scanned copy of ${schoolName}'s GPR-4 or present copy of the Transfer Certificate of Title (TCT)`,
                 }
                 sgMail.send(msg).catch((err: any) => {
                   throw new Error(err)
