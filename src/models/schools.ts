@@ -23,11 +23,7 @@ const schools = new Schema({
     type: String,
     enum: ['Private', 'Public'],
   },
-  schoolStreet: String,
-  schoolBarangay: String,
-  schoolMunicipality: String,
-  schoolProvince: String,
-  schoolZipCode: Number,
+  schoolAddress: String,
   createdAt: {
     type: Date,
     default: Date.now,
