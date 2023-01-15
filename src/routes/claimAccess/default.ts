@@ -60,7 +60,7 @@ const addClaimAccess = async (req, res) => {
           res.locals.user.userType === 'Admin'
             ? res.locals.user.schoolId
             : schoolId,
-        isConfirmed: res.locals.user.userType === 'Admin' ? true : false,
+        isAccepted: res.locals.user.userType === 'Admin' ? true : false,
         isSentByStudent: res.locals.user.userType === 'Admin' ? false : true,
       })
       const getExistingClaimAccess = await ClaimAccess.find({
