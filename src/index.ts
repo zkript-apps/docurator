@@ -9,6 +9,7 @@ app.use(express.json())
 app.use(
   cors({
     origin: origins,
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
   })
 )
 routes(app)
