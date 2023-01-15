@@ -6,12 +6,7 @@ import './utils/mongodb'
 
 const app: Application = express()
 app.use(express.json())
-app.use(
-  cors({
-    origin: origins,
-    credentials: true,
-  })
-)
+app.use(cors())
 routes(app)
 
 app.listen(port, () => {
