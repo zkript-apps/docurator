@@ -111,7 +111,7 @@ const addStudent = async (req, res) => {
         $or: [{ lrn }, { email }],
         deletedAt: { $exists: false },
       })
-      console.log(getExistingStudent)
+
       if (getExistingStudent.length === 0) {
         const createStudent = await newStudent.save()
         const newClaimAccess = new ClaimAccess({

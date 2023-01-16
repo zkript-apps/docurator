@@ -6,11 +6,11 @@ const {
   updateDaysPresent,
   deleteDaysPresent,
 } = require('./default')
-import { isUserLoggedIn } from '../../../helper'
+import { isAuthenticated } from '../../../helper'
 
-router.get('/', isUserLoggedIn, getAllDaysPresent)
-router.post('/', isUserLoggedIn, addDaysPresent)
-router.patch('/:id', isUserLoggedIn, updateDaysPresent)
-router.delete('/:id', isUserLoggedIn, deleteDaysPresent)
+router.get('/', isAuthenticated, getAllDaysPresent)
+router.post('/', isAuthenticated, addDaysPresent)
+router.patch('/:id', isAuthenticated, updateDaysPresent)
+router.delete('/:id', isAuthenticated, deleteDaysPresent)
 
 module.exports = router

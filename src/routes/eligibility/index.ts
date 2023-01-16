@@ -6,11 +6,11 @@ const {
   updateEligibility,
   deleteEligibility,
 } = require('./default')
-import { isUserLoggedIn } from '../../../helper'
+import { isAuthenticated } from '../../../helper'
 
-router.get('/', isUserLoggedIn, getAllEligibility)
-router.post('/', isUserLoggedIn, addEligibility)
-router.patch('/:id', isUserLoggedIn, updateEligibility)
-router.delete('/:id', isUserLoggedIn, deleteEligibility)
+router.get('/', isAuthenticated, getAllEligibility)
+router.post('/', isAuthenticated, addEligibility)
+router.patch('/:id', isAuthenticated, updateEligibility)
+router.delete('/:id', isAuthenticated, deleteEligibility)
 
 module.exports = router

@@ -58,7 +58,7 @@ const addSchools = async (req, res) => {
 
     try {
       const getExistingSchools = await Schools.find({
-        _id: req.params.id,
+        $and: [{ schoolId }, { schoolName }],
         deletedAt: { $exists: false },
       })
       if (getExistingSchools.length === 0) {

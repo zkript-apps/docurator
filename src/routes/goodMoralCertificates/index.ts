@@ -7,18 +7,18 @@ import {
   deleteGoodMoralCertificate,
 } from './default'
 import { getAllGoodMoralCertificatesWithAccess } from './customGet'
-import { isUserLoggedIn } from '../../../helper'
+import { isAuthenticated } from '../../../helper'
 
 //default
-router.get('/', isUserLoggedIn, getAllGoodMoralCertificates)
+router.get('/', isAuthenticated, getAllGoodMoralCertificates)
 router.post('/', addGoodMoralCertificates)
-router.patch('/:id', isUserLoggedIn, updateGoodMoralCertificate)
-router.delete('/:id', isUserLoggedIn, deleteGoodMoralCertificate)
+router.patch('/:id', isAuthenticated, updateGoodMoralCertificate)
+router.delete('/:id', isAuthenticated, deleteGoodMoralCertificate)
 
 //custom get
 router.get(
   '/with-access',
-  isUserLoggedIn,
+  isAuthenticated,
   getAllGoodMoralCertificatesWithAccess
 )
 

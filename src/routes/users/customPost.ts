@@ -76,7 +76,6 @@ const createAccount = async (req, res) => {
     firstName,
     lastName,
     userType,
-    files,
   } = req.body
 
   if (userType === 'Admin') {
@@ -99,10 +98,9 @@ const createAccount = async (req, res) => {
       })
       try {
         const getExistingSchools = await Schools.find({
-          $or: [
+          $and: [
+            { schoolId: req.body.schoolId },
             { schoolName: req.body.schoolName },
-            { schoolEmail: req.body.schoolEmail },
-            { schoolPhoneNumber: req.body.schoolPhoneNumber },
           ],
           deletedAt: { $exists: false },
         })
@@ -140,12 +138,10 @@ const createAccount = async (req, res) => {
               privateKey: 'pri_' + encryptPrivateKey,
               isVerified: false,
             })
-            console.log(files)
             try {
               if (getExistingUser.length === 0) {
                 const createUser = await newUser.save()
                 //send email
-                // const fs = require('fs')
                 const sgMail = require('@sendgrid/mail')
                 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
                 const msg = {

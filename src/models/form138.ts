@@ -22,19 +22,6 @@ const form138 = new Schema({
     },
   },
 
-  isFirstGradingSigned: Boolean,
-  isSecondGradingSigned: Boolean,
-  isThirdGradingSigned: Boolean,
-  isFourthGradingSigned: Boolean,
-
-  subjectRecords: [
-    {
-      subjectRecordId: {
-        type: Schema.Types.ObjectId,
-        ref: 'SubjectRecords',
-      },
-    },
-  ],
   attendanceId: {
     type: Schema.Types.ObjectId,
     ref: 'Students',

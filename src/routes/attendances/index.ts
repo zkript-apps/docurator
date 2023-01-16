@@ -7,14 +7,18 @@ const {
   deleteAttendance,
 } = require('./default')
 import { createAttendanceRecord } from './customPost'
-import { isUserLoggedIn } from '../../../helper'
+import { isAuthenticated } from '../../../helper'
 
-router.get('/', isUserLoggedIn, getAllAttendances)
-router.post('/', isUserLoggedIn, addAttendance)
-router.patch('/:id', isUserLoggedIn, updateAttendance)
-router.delete('/:id', isUserLoggedIn, deleteAttendance)
+router.get('/', isAuthenticated, getAllAttendances)
+router.post('/', isAuthenticated, addAttendance)
+router.patch('/:id', isAuthenticated, updateAttendance)
+router.delete('/:id', isAuthenticated, deleteAttendance)
 
 //custom post
-router.post('/create-attendance-record', isUserLoggedIn, createAttendanceRecord)
+router.post(
+  '/create-attendance-record',
+  isAuthenticated,
+  createAttendanceRecord
+)
 
 module.exports = router

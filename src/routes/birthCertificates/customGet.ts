@@ -6,6 +6,7 @@ const getAllBirthCertificatesWithAccess = async (req, res) => {
   if (res.locals.user) {
     try {
       const getAllBirthCertificatesWithAccess = await ClaimAccess.find({
+        deletedAt: { $exists: false },
         schoolId: res.locals.user.schoolId,
       }).sort({
         createdAt: -1,
