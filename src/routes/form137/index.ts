@@ -7,14 +7,14 @@ const {
   deleteForm137,
 } = require('./default')
 const { getAllForm137WithAccess } = require('./customGet')
-import { isUserLoggedIn } from '../../../helper'
+import { isAuthenticated } from '../../../helper'
 
-router.get('/', isUserLoggedIn, getAllForm137)
-router.post('/', isUserLoggedIn, addForm137)
-router.patch('/:id', isUserLoggedIn, updateForm137)
-router.delete('/:id', isUserLoggedIn, deleteForm137)
+router.get('/', isAuthenticated, getAllForm137)
+router.post('/', isAuthenticated, addForm137)
+router.patch('/:id', isAuthenticated, updateForm137)
+router.delete('/:id', isAuthenticated, deleteForm137)
 
 //custom get
-router.get('/with-access/', isUserLoggedIn, getAllForm137WithAccess)
+router.get('/with-access/', isAuthenticated, getAllForm137WithAccess)
 
 module.exports = router
