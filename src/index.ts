@@ -12,7 +12,6 @@ app.use(
     credentials: true,
   })
 )
-
 routes(app)
 
 app.listen(port, () => {
