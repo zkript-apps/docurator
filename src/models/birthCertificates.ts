@@ -1,4 +1,5 @@
 import mongoose from 'mongoose'
+import { string } from 'zod'
 const { Schema } = mongoose
 
 const birthCertificates = new Schema({

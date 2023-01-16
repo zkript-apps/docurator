@@ -6,14 +6,10 @@ import { UNKNOWN_ERROR_OCCURRED } from '../../utils/constants'
 const verifyAuth = async (req, res, next) => {
   const token = req.query.token
   try {
-    // Check if token is defined
     if (!token) {
       throw new Error('Authentication is invalid')
     }
-    // Verify the token
-
     const { email } = jwt.verify(token, keys.signKey)
-    // Check if email exist in db
     const user = await Users.findOne({ email }).populate([
       {
         path: 'schoolId',
