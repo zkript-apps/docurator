@@ -30,7 +30,6 @@ const getAllSubjectRecords = async (req, res) => {
 
 const addSubjectRecords = async (req, res) => {
   const {
-    studentId,
     lrn,
     subjectName,
     subjectCode,
@@ -45,8 +44,12 @@ const addSubjectRecords = async (req, res) => {
   } = req.body
 
   if (subjectName && gradeLevel && lrn) {
+    const getExistingLrn = await Students.findOne({
+      lrn,
+      deletedAt: { $exists: false },
+    })
     const newSubjectRecord = new SubjectRecords({
-      studentId,
+      studentId: getExistingLrn?._id,
       lrn,
       subjectName,
       subjectCode,
