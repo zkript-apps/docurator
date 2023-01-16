@@ -8,7 +8,12 @@ import bodyParser from 'body-parser'
 const app: Application = express()
 app.use(express.json())
 app.use(bodyParser.json({ limit: '50mb' }))
-app.use(cors())
+app.use(
+  cors({
+    origin: origins,
+    credentials: true,
+  })
+)
 
 routes(app)
 
