@@ -3,13 +3,11 @@ import { keys } from './src/config/keys'
 import jwt from 'jsonwebtoken'
 import { UNKNOWN_ERROR_OCCURRED } from './src/utils/constants'
 
-const isAuthenticated = async (req, res, next) => {
+const isUserLoggedIn = async (req, res, next) => {
   const bearerHeader = req.headers['authorization']
-
   if (bearerHeader) {
     const bearer = bearerHeader.split(' ')
     const bearerToken = bearer[1]
-
     try {
       const { email } = jwt.verify(bearerToken, keys.signKey)
       const user = await Users.findOne({ email })
@@ -21,18 +19,12 @@ const isAuthenticated = async (req, res, next) => {
           'Your account was banned, all actions and requested data was prohibited'
         )
       }
-      next()
       res.locals.user = user
+      next()
     } catch (err: any) {
       const message = err.message ? err.message : UNKNOWN_ERROR_OCCURRED
       if (message === 'jwt malformed') {
-        const verifiedUser = await Users.findOne({ privateKey: bearerToken })
-        if (verifiedUser === null) {
-          res.status(403).json('Not a valid API key')
-        } else {
-          res.locals.user = verifiedUser
-          next()
-        }
+        res.status(401).json('Invalid authentication credentials')
       } else if (message === 'jwt expired') {
         res.status(403).json('Authentication is expired, please login again')
       } else {
@@ -45,5 +37,5 @@ const isAuthenticated = async (req, res, next) => {
 }
 
 module.exports = {
-  isAuthenticated,
+  isUserLoggedIn,
 }

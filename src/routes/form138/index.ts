@@ -8,17 +8,17 @@ import {
 } from './default'
 import { getAllForm138WithAccess } from './customGet'
 import { createForm138WithAttendance } from './customPost'
-import { isAuthenticated } from '../../../helper'
+import { isUserLoggedIn } from '../../../helper'
 
-router.get('/', isAuthenticated, getAllForm138)
-router.post('/', isAuthenticated, addForm138)
-router.patch('/:id', isAuthenticated, updateForm138)
-router.delete('/:id', isAuthenticated, deleteForm138)
+router.get('/', isUserLoggedIn, getAllForm138)
+router.post('/', isUserLoggedIn, addForm138)
+router.patch('/:id', isUserLoggedIn, updateForm138)
+router.delete('/:id', isUserLoggedIn, deleteForm138)
 
 //custom get
-router.get('/with-access', isAuthenticated, getAllForm138WithAccess)
+router.get('/with-access', isUserLoggedIn, getAllForm138WithAccess)
 
 //custom post
-router.post('/create', isAuthenticated, createForm138WithAttendance)
+router.post('/create', isUserLoggedIn, createForm138WithAttendance)
 
 module.exports = router

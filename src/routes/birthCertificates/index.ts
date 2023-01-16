@@ -7,14 +7,14 @@ const {
   deleteBirthCertificate,
 } = require('./default')
 import { getAllBirthCertificatesWithAccess } from './customGet'
-import { isAuthenticated } from '../../../helper'
+import { isUserLoggedIn } from '../../../helper'
 
-router.get('/', isAuthenticated, getAllBirthCertificates)
-router.post('/', isAuthenticated, addBirthCertificate)
-router.patch('/:id', isAuthenticated, updateBirthCertificate)
-router.delete('/:id', isAuthenticated, deleteBirthCertificate)
+router.get('/', isUserLoggedIn, getAllBirthCertificates)
+router.post('/', isUserLoggedIn, addBirthCertificate)
+router.patch('/:id', isUserLoggedIn, updateBirthCertificate)
+router.delete('/:id', isUserLoggedIn, deleteBirthCertificate)
 
 //custom get
-router.get('/with-access', isAuthenticated, getAllBirthCertificatesWithAccess)
+router.get('/with-access', isUserLoggedIn, getAllBirthCertificatesWithAccess)
 
 module.exports = router

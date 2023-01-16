@@ -3,14 +3,14 @@ const router = express.Router()
 import { getAllUsers, addUser, updateUser, deleteUser } from './default'
 import { auth, createAccount } from './customPost'
 import { verifyAuth, getUnverifiedAccounts } from './customGet'
-import { isAuthenticated } from '../../../helper'
+import { isUserLoggedIn } from '../../../helper'
 import changePassword from './customPatch'
 
 //default
-router.get('/', isAuthenticated, getAllUsers)
+router.get('/', isUserLoggedIn, getAllUsers)
 router.post('/', addUser)
-router.patch('/:id', isAuthenticated, updateUser)
-router.delete('/:id', isAuthenticated, deleteUser)
+router.patch('/:id', isUserLoggedIn, updateUser)
+router.delete('/:id', isUserLoggedIn, deleteUser)
 
 //custom post
 router.post('/auth', auth)
@@ -18,9 +18,9 @@ router.post('/create-account', createAccount)
 
 //custom get
 router.get('/verifyAuth', verifyAuth)
-router.get('/unverified', isAuthenticated, getUnverifiedAccounts)
+router.get('/unverified', isUserLoggedIn, getUnverifiedAccounts)
 
 //custom patch
-router.patch('/change-password/:id', isAuthenticated, changePassword)
+router.patch('/change-password/:id', isUserLoggedIn, changePassword)
 
 module.exports = router

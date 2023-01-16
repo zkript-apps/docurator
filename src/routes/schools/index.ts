@@ -6,11 +6,11 @@ const {
   updateSchools,
   deleteSchools,
 } = require('./default')
-import { isAuthenticated } from '../../../helper'
+import { isUserLoggedIn } from '../../../helper'
 
-router.get('/', isAuthenticated, getAllSchools)
+router.get('/', isUserLoggedIn, getAllSchools)
 router.post('/', addSchools)
-router.patch('/:id', isAuthenticated, updateSchools)
-router.delete('/:id', isAuthenticated, deleteSchools)
+router.patch('/:id', isUserLoggedIn, updateSchools)
+router.delete('/:id', isUserLoggedIn, deleteSchools)
 
 module.exports = router
