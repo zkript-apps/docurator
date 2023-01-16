@@ -13,6 +13,7 @@ import BirthCertificates from './birthCertificates'
 import ClaimAccess from './claimAccess'
 import Schools from './schools'
 import Form138 from './form138'
+import Hello from './hello'
 
 export default function (app: Application) {
   app.use(`${API_ROOT}/users`, UsersRoute)
@@ -28,4 +29,6 @@ export default function (app: Application) {
   app.use(`${API_ROOT}/claim-access`, ClaimAccess)
   app.use(`${API_ROOT}/schools`, Schools)
   app.use(`${API_ROOT}/form138`, Form138)
+  //for endpoint test
+  app.use(`${API_ROOT}/hello`, Hello)
 }
