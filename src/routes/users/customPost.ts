@@ -11,9 +11,7 @@ import CryptoJS from 'crypto-js'
 import jwt from 'jsonwebtoken'
 import { v4 as uuidv4 } from 'uuid'
 import sgMail from '@sendgrid/mail'
-sgMail.setApiKey(
-  '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'
-)
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 const auth = async (req, res, next) => {
   const { email, password, phoneNumber } = req.body
@@ -145,6 +143,7 @@ const createAccount = async (req, res) => {
                 const createUser = await newUser.save()
                 //send email
                 const sgMail = require('@sendgrid/mail')
+                sgMail.setApiKey(process.env.SENDGRID_API_KEY)
                 const msg = {
                   to: `${email}`, // Change to your recipient
                   from: 'kyllevaron.madrigal@lspu.edu.ph', // Change to your verified sender
