@@ -2,7 +2,7 @@
 
 First, get the API key from your verified account.
 
-Login > Developer
+Go to Login > Developer
 
 It should look like something like this:
 ```bash
