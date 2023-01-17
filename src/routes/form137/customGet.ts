@@ -27,7 +27,6 @@ const getAllForm137WithAccess = async (req, res) => {
         studentId: { $in: studentIds },
       }).sort({ createdAt: -1 })
 
-      console.log(getAllSubjectRecords)
       // get all students form137 that exist in the above result using $in query
       const form137Counts = await Form137.find({
         deletedAt: { $exists: false },
