@@ -10,6 +10,7 @@ const getAllForm137WithAccess = async (req, res) => {
       const getAllForm137WithAccess = await ClaimAccess.find({
         deletedAt: { $exists: false },
         schoolId: res.locals.user.schoolId,
+        isAccepted: true,
       }).sort({
         createdAt: -1,
       })
