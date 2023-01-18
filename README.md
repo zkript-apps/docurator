@@ -2,7 +2,6 @@
 
 First, get the API key from your verified account at [https://docurator.jpmadrigal.com/developer](https://docurator.jpmadrigal.com/developer)
 
-
 It should look something like this:
 ```bash
 pri_U2FsdGVkX19doVqpqesB/p2SAkG56ulRiP4UPUJyajshKSJLAdjhfJHjhal
