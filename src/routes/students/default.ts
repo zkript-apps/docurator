@@ -118,6 +118,8 @@ const addStudent = async (req, res) => {
           lrn,
           schoolId: res.locals.user.schoolId,
           studentId: createStudent._id,
+          isAccepted: true,
+          isSentByStudent: false,
         })
         const createClaimAccess = await newClaimAccess.save()
         res.json({

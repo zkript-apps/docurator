@@ -148,7 +148,7 @@ const createAccount = async (req, res) => {
                   to: `${email}`, // Change to your recipient
                   from: 'kyllevaron.madrigal@lspu.edu.ph', // Change to your verified sender
                   subject: 'School Account Verification',
-                  text: `Good Day! I am Kylle Varon Madrigal from DoCurator,\nIn order to get your account verified, I would like to ask you to send a scanned copy of ${schoolName}'s GPR-4 or present copy of the Transfer Certificate of Title (TCT)`,
+                  text: `Good Day! I am Kylle Varon Madrigal from DoCurator,\nIn order to get your account verified, I would like to ask you to send a scanned copy of ${schoolName}'s GPR-4 or present copy of the Transfer Certificate of Title (TCT)\n\nThanks!`,
                 }
                 sgMail.send(msg).catch((err: any) => {
                   throw new Error(err)
