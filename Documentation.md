@@ -29,7 +29,7 @@ You can now start testing the endpoints.
 Make a GET request using the endpoint:
 
 ```bash
-https://docuratorapi.jpmadrigal.com/api/hello
+https://docurator.com/api/hello
 ```
 
 You should get this message:
