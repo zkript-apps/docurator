@@ -22,7 +22,7 @@ const params = {
 
 You can now start testing the endpoints.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be now accessed on [https://docuapi.jpmadrigal.com](https://docuapi.jpmadrigal.com/).
+[API routes](https://nextjs.org/docs/api-routes/introduction) can be now accessed on [https://docurator.com](https://docurator.com/).
 
 ## Test it out!
 
